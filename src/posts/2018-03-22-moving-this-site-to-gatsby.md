@@ -31,3 +31,5 @@ During the process is true you don't have so many fancy themes like with more ma
 Then later, of course, I arrived at the point of having to deploy the site and you find [Netlify](https://www.netlify.com), well then is when you are really not able to believe it, so good. I promise the best way to explain it, is just to try it.
 
 I'll update if I have to change my page engine again, but honestly, I'm keen to try out the possibilities we could get with this stack, and this blog is just the beginning.
+
+Additionally I prepared a README file in the [website repo](https://github.com/robertovg/robertovgGatsbyjs) to explain the problems and the solutions I implemented in the site, just if someone is interested, I will continue updating it while I update the page.
