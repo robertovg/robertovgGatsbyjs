@@ -38,4 +38,4 @@ Just used default system fonts approach described on [CSS tricks](https://css-tr
 
 ### Avoiding exploitation of the window.opener API.
 
-I found another magic plugin to avoid this problem and additionally process markdown external native markdown links to a safe links using the proper solution (rel="nofollow noopener noreferrer").
+I found another magic plugin to avoid this problem and additionally process external native markdown links to a safe links using the proper solution (target='\_blank' rel="nofollow noopener noreferrer").
