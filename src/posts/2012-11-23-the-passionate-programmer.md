@@ -9,13 +9,13 @@ featuredImage: "./images/the_passionate_programmer.jpg"
 ---
 
 <p>
-	I've finally finished <a href='http://pragprog.com/book/cfcar2/the-passionate-programmer' target='_blank'>'The Passionate Programmer'</a> by <a href='http://www.chadfowler.com/' target='_blank'>Chad Fowler</a> one of 'technical books' I've most enjoyed. Specifically this is not an technical book but a book for technical developers who want to learn about the experience of a successful engineer.
+	I've finally finished <a href='http://pragprog.com/book/cfcar2/the-passionate-programmer' target='_blank' rel="nofollow noopener noreferrer">'The Passionate Programmer'</a> by <a href='http://www.chadfowler.com/' target='_blank' rel="nofollow noopener noreferrer">Chad Fowler</a> one of 'technical books' I've most enjoyed. Specifically this is not an technical book but a book for technical developers who want to learn about the experience of a successful engineer.
 </p>
 <p>
 	The book is based on Chad's personal experience. He always try to give you the good parts from each one allowing you to learn his conclusions directly from the text.
 </p>
 <p>
-	The stories you'll find inside the book ( I won't spoil it to much ) are not only about <a href='http://en.wikipedia.org/wiki/Software_industry' target='_blank'>Software Development Industry</a>, before he becoming a programmer he started his career as a full-time saxophonist and a lot of his lessons are extracted from this period and surprisingly all of them fit nicely into <a href='http://en.wikipedia.org/wiki/Information_technology' target='_blank'>IT</a> world. I'm also a musician, I play the guitar in a blues band, just for fun, so that all his music examples sounds familiar to me.
+	The stories you'll find inside the book ( I won't spoil it to much ) are not only about <a href='http://en.wikipedia.org/wiki/Software_industry' target='_blank' rel="nofollow noopener noreferrer">Software Development Industry</a>, before he becoming a programmer he started his career as a full-time saxophonist and a lot of his lessons are extracted from this period and surprisingly all of them fit nicely into <a href='http://en.wikipedia.org/wiki/Information_technology' target='_blank' rel="nofollow noopener noreferrer">IT</a> world. I'm also a musician, I play the guitar in a blues band, just for fun, so that all his music examples sounds familiar to me.
 </p>
 <p>
 	One of the good parts in the book is the end of each section called 'Act on it' in which Chad Fowler send you homework about the topic of latter section.
