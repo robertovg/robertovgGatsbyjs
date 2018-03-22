@@ -36,6 +36,10 @@ Just a simple html form connected with Gatsby form engine. No extra-validations 
 
 Just used default system fonts approach described on [CSS tricks](https://css-tricks.com/snippets/css/system-font-stack/) as Github does. Easy way to have something redeable and native for users and fast to load
 
+### Avoiding exploitation of the window.opener API.
+
+I found another magic plugin to avoid this problem and additionally process markdown external native markdown links to a safe links using the proper solution (rel="nofollow noopener noreferrer").
+
 ## Deploy
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-default)
