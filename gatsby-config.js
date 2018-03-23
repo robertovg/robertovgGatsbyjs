@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'Roberto Vázquez González',
+    siteUrl: `https://robertovg.com`,
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -55,6 +56,15 @@ module.exports = {
           windows: false,
         },
       },
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: 'UA-5525453-12',
+      },
+    },
+    {
+      resolve: `gatsby-plugin-sitemap`,
     },
   ],
 };
