@@ -5,7 +5,7 @@ category: webservices
 tags: [last.fm, scrobblings, mp3, software]
 published: true
 date: "2011-02-23"
-featuredImage: "./images/lastfm_logo_red.png"
+featuredImage: "./images/lastfm_logo_red.jpeg"
 ---
 
 <p>Hoy <strong>es habitual que guardes tus datos en</strong> la llamada nube,<strong> en Internet</strong> vamos. Es algo que haces constantemente y casi sin darte cuenta. Esto no es nada nuevo, seguro que utilizas <a href='http://mail.google.com/mail?hl=es' target='_blank' rel="nofollow noopener noreferrer">gmail </a>o <a href='http://www.hotmail.com/' target='_blank' rel="nofollow noopener noreferrer">hotmail</a> en vez de tu Outlook u otro programa de correo o escuchas tus canciones con <a title='Spotify' href='http://www.spotify.com/' target='_blank' rel="nofollow noopener noreferrer">Spotify</a> en vez de con ese viejo winamp 3.X que te acompañó durante tanto tiempo. Esto se puede plantear como un problema y también como una ventaja, pero lo que sí es cierto es que <strong>ésta es una tendencia general </strong>de los usuarios de Internet.</p>
@@ -22,13 +22,10 @@ featuredImage: "./images/lastfm_logo_red.png"
 	<li>
 		Escuchas una canción en tu ordenador a través de tu reproductor favorito, como por ejemplo <a title='Spotify' href='http://www.spotify.com/' target='_blank' rel="nofollow noopener noreferrer">Spotify</a>, <a href='http://www.apple.com/es/itunes/' target='_blank' rel="nofollow noopener noreferrer">iTunes</a>, <a href='http://www.winamp.com/' target='_blank' rel="nofollow noopener noreferrer">Winamp</a>, <a href='http://windows.microsoft.com/es-ES/windows/products/windows-media' target='_blank' rel="nofollow noopener noreferrer">Windows Media Player</a>, <a href='http://www.rhythmbox.org' target='_blank' rel="nofollow noopener noreferrer">Rhythmbox</a>, <a href='http://banshee.fm/' target='_blank' rel="nofollow noopener noreferrer">Banshee</a>, <a href='http://amarok.kde.org/' target='_blank' rel="nofollow noopener noreferrer">Amarok</a>, <a title='Songbird' href='http://www.getsongbird.com/' target='_blank' rel="nofollow noopener noreferrer">Songbird</a>, <a href='http://www.videolan.org/vlc/' target='_blank' rel="nofollow noopener noreferrer">VLC</a> &#8230;(y un largo <a href='http://www.lastfm.es/group/Does%2520It%2520Scrobble' target='_blank' rel="nofollow noopener noreferrer">etcétera</a>).
 	</li>
-
     <li>
     	Cuando escuchas algo desde tu <a href='http://www.apple.com/es/ipod/' target='_blank' rel="nofollow noopener noreferrer">ipod</a>, <a href='http://www.apple.com/es/iphone/' target='_blank' rel="nofollow noopener noreferrer">iphone</a>, o cualquier <a href='http://www.google.com/phone/' target='_blank' rel="nofollow noopener noreferrer">dispositivo con android</a>.
     </li>
-
     <li>O cuando sincronizas tu mp3 o mp4 con tu ordenador.</li>
-
 </ul>
 
 <p>Fondo de pantalla generado con las carátulas de mis discos más escuchados</p>

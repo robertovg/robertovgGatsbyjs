@@ -95,10 +95,16 @@ const HeaderLinkStyled = styled.li`
   &:hover {
     transform: scale(1.1);
   }
+  .fixed & a {
+    color: ${colors.lightTextColor};
+  }
   ${media.tablet`
     display: none;
     #mobileMenuCheckbox:checked ~ ul &:nth-child(3) {
       justify-self: center;
+    }
+    .fixed & a {
+      color: -webkit-link;
     }
   `};
 `;

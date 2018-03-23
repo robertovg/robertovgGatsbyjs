@@ -9,6 +9,7 @@ const PostStyled = styled.section`
     font-size: 1.5rem;
   }
   .gatsby-image-wrapper {
+    margin-bottom: 1rem;
     width: 100%;
     max-height: 70vh;
   }
