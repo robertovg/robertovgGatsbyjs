@@ -19,11 +19,11 @@ const ContactPage = () => (
       get in touch, do not hesitate to use the following form.
     </article>
     <form
-      name="contact"
+      name="contact-form"
       method="post"
       action="/thanks/"
-      data-netlify="true"
-      data-netlify-honeypot="bot-field"
+      netlify="true"
+      netlify-honeypot="bot-field"
     >
       <label htmlFor="name">Name</label>
       <input name="name" type="text" autoComplete="name" placeholder="What's your name?" required />
