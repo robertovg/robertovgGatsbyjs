@@ -23,7 +23,6 @@ const FooterWrapperStyled = styled.div`
     font-size: 1rem;
   }
   &:hover {
-    /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28); */
     background-color: ${colors.contentWrappersBackground};
   }
 `;
@@ -48,7 +47,7 @@ const SocialLinkStyled = styled.a`
   max-height: 40px;
   &:hover {
     transform: scale(1.1);
-    color: ${colors.darkTextColor};
+    color: ${colors.lightTextColor};
     background-color: ${props => props.color};
   }
   ${media.phone`

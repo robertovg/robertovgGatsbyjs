@@ -9,11 +9,9 @@ import { media } from './Breakpoints';
 const NavWrapperStyled = styled.div`
   grid-area: header;
   z-index: 2;
-  width: 100%;
   height: 50px;
-  &:hover {
-    background-color: ${colors.contentWrappersBackground};
-  }
+  transition: background-color 200ms linear;
+  width: 100%;
   input {
     display: none;
   }
@@ -21,25 +19,26 @@ const NavWrapperStyled = styled.div`
     cursor: pointer;
   }
   &.fixed {
+    background-color: ${props => props.backgroundWhenFixed};
     width: ${maxMainWith};
     position: fixed;
     top: 0;
   }
   ${media.giant`
     &.fixed {
-      width: calc(100% - (var(--padding-base) * 4));
+      width: calc(100vw - (var(--padding-base) * 4));
     }
   `};
   ${media.tablet`
     &.fixed {
-      width: calc(100% - var(--padding-base) * 2);
+      width: calc(100vw - var(--padding-base) * 2);
     }
   `};
 `;
 
 const HeaderStyled = styled.ul`
   margin: 0;
-  padding: 0;
+  padding: 0 var(--padding-base);
   list-style: none;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -53,6 +52,7 @@ const HeaderStyled = styled.ul`
     text-decoration: none;
   }
   ${media.tablet`
+    padding: 0;
     grid-template-columns: 1fr;
     #mobileMenuCheckbox:checked ~ & {
     	position: fixed;
@@ -60,7 +60,6 @@ const HeaderStyled = styled.ul`
       background-color: ${colors.lightTextColor};
       grid-auto-flow: row;
       justify-items: center;
-      animation: fadeIn 1s;
       width: calc(100% - var(--padding-base) * 2);
     	height: calc(100vh - var(--padding-base));
       border-radius: 3px;
@@ -80,7 +79,6 @@ const HeaderLinkStyled = styled.li`
   }
   &:hover,
   &.actual {
-    transform: scale(1.1);
     a {
       border-image: linear-gradient(
         to right,
@@ -93,6 +91,9 @@ const HeaderLinkStyled = styled.li`
       border-bottom: 3px solid transparent;
       border-left: 0 solid transparent;
     }
+  }
+  &:hover {
+    transform: scale(1.1);
   }
   ${media.tablet`
     display: none;
@@ -111,9 +112,7 @@ const HomeLinkStyled = styled(HeaderLinkStyled)`
 
 const MobileMenuAnchor = styled.li`
   display: none;
-  position: absolute;
-  top: var(--padding-base);
-  right: var(--padding-base);
+  justify-self: end;
   .fixed & {
     top: 0;
     right: 0;
@@ -134,6 +133,16 @@ const MobileMenuAnchor = styled.li`
     transition: all 1s cubic-bezier(0.645, 0.045, 0.355, 1);
     transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
     background-color: ${colors.mediaColor};
+  }
+
+  #mobileMenuCheckbox:checked ~ ul & {
+    position: absolute;
+  }
+  .fixed #mobileMenuCheckbox:checked ~ ul & div span {
+    background-color: ${colors.mediaColor};
+  }
+  .fixed #mobileMenuCheckbox:not(checked) ~ ul & div span {
+    background-color: ${colors.lightTextColor};
   }
   div span:nth-child(1) {
     margin: 0;
@@ -197,7 +206,7 @@ class Header extends Component {
     const { actualPage } = this.props;
     const { scrolledClass, checked } = this.state;
     return (
-      <NavWrapperStyled className={scrolledClass}>
+      <NavWrapperStyled className={scrolledClass} backgroundWhenFixed={actualPage.gradientTop}>
         <input type="checkbox" id="mobileMenuCheckbox" checked={checked} />
         <HeaderStyled>
           <MobileMenuAnchor>

@@ -16,18 +16,8 @@ function getActualPage(href) {
 }
 
 const GatsbyStyled = styled.div`
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
   --padding-base: 16px;
   padding: calc(var(--padding-base) * 2);
-  transition: background-color 2s linear;
-  animation: fadeIn 1s;
   background: linear-gradient(
     to bottom right,
     ${props => props.actualPage.gradientTop} 0%,
@@ -38,6 +28,7 @@ const GatsbyStyled = styled.div`
   `};
 `;
 const PageStyled = styled.main`
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
   margin: 0 auto;
   display: grid;
   grid-template-rows: 50px 1fr 100px;
