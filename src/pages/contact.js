@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { media } from '../components/Breakpoints';
 
 const ContactStyled = styled.section`
   form {
@@ -19,9 +18,9 @@ const ContactPage = () => (
       get in touch, do not hesitate to use the following form.
     </article>
     <form
-      name="contact-form"
+      name="contactMe"
       method="post"
-      action="/thanks/"
+      action="/thanks"
       netlify="true"
       netlify-honeypot="bot-field"
     >
