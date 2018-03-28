@@ -21,8 +21,8 @@ const ContactPage = () => (
       name="contactMe"
       method="post"
       action="/thanks"
-      netlify="true"
-      netlify-honeypot="bot-field"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
     >
       <label htmlFor="name">Name</label>
       <input name="name" type="text" autoComplete="name" placeholder="What's your name?" required />
