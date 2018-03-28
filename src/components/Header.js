@@ -62,6 +62,7 @@ const HeaderStyled = styled.ul`
       justify-items: center;
       width: calc(100% - var(--padding-base) * 2);
     	height: calc(100vh - var(--padding-base));
+      align-content: space-evenly;
       border-radius: 3px;
       z-index: 3;
       li {

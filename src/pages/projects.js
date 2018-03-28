@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'gatsby-link';
 import { colors } from '../components/constants';
-// TODO add this website link whe I have it
+
 const ProjectsStyled = styled.section`
   summary {
     font-size: 1.2rem;
@@ -73,6 +74,36 @@ const ProjectsPage = () => (
               <a
                 target="_blank"
                 rel="noopener noreferrer"
+                href="https://github.com/robertovg/robertovgGatsbyjs"
+              >
+                This page
+              </a>
+            </h4>
+            The site was built with{' '}
+            <a target="_blank" rel="noopener noreferrer" href="https://www.gatsbyjs.org/">
+              Gatsby
+            </a>{' '}
+            and deployed on{' '}
+            <a target="_blank" rel="noopener noreferrer" href="https://www.netlify.com">
+              Netlify
+            </a>{' '}
+            everything here has been crafted from scratch. I have
+            <Link to="/blog/moving-this-site-to-gatsby"> a blog post </Link>
+            where I explain the details and the{' '}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/robertovg/robertovgGatsbyjs"
+            >
+              repo readme
+            </a>{' '}
+            has also a lot of details about it.
+          </li>
+          <li>
+            <h4>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://github.com/robertovg/language-exercise"
               >
                 Language Exercise
@@ -82,8 +113,6 @@ const ProjectsPage = () => (
             simple game of selecting the missing word in a sentence. And practice with react v.16,
             react-router v4.2 and redux-saga.
           </li>
-        </ul>
-        <ul>
           <li>
             <h4>
               <a target="_blank" rel="noopener noreferrer" href="chat-exercise">
