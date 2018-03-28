@@ -17,7 +17,19 @@ const ContactPage = () => (
       If you have any questions about my professional experience and/or skills or just want to to
       get in touch, do not hesitate to use the following form.
     </article>
-    <form name="contactMe" method="post" data-netlify="true" data-netlify-honeypot="bot-field">
+    <form
+      name="contactMe"
+      method="post"
+      action="/thanks/"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="contactMe" />
+      <p hidden>
+        <label>
+          Don’t fill this out: <input name="bot-field" />
+        </label>
+      </p>
       <label htmlFor="name">Name</label>
       <input name="name" type="text" autoComplete="name" placeholder="What's your name?" required />
       <label htmlFor="email">Email</label>
