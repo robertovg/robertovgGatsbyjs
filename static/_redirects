@@ -1,5 +1,5 @@
 # Redirects from what the browser requests to what we serve
-/side-projects              /projects/
+/side-projects/*              /projects/
 /going-back-to-the-roots-to-evolve              /blog/going-back-to-the-roots-to-evolve
 /reflexions/feeling-good-out-of-my-comfort-zone              /blog/feeling-good-out-of-my-comfort-zone
 /hosting/getting-started-with-wordpress-in-openshift              /blog/getting-started-with-wordpress-in-openshift
