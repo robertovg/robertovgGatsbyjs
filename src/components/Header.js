@@ -104,7 +104,7 @@ const HeaderLinkStyled = styled.li`
       justify-self: center;
     }
     .fixed & a {
-      color: -webkit-link;
+      color: ${colors.mediaColor};
     }
   `};
 `;
