@@ -26,12 +26,12 @@ const NavWrapperStyled = styled.div`
   }
   ${media.giant`
     &.fixed {
-      width: calc(100vw - (var(--padding-base) * 4));
+      width: calc(100% - (var(--padding-base) * 4));
     }
   `};
   ${media.tablet`
     &.fixed {
-      width: calc(100vw - var(--padding-base) * 2);
+      width: calc(100% - var(--padding-base) * 2);
     }
   `};
 `;
@@ -61,7 +61,7 @@ const HeaderStyled = styled.ul`
       grid-auto-flow: row;
       justify-items: center;
       width: calc(100% - var(--padding-base) * 2);
-    	height: calc(100vh - var(--padding-base));
+    	height: calc(100vh);
       align-content: space-evenly;
       border-radius: 3px;
       z-index: 3;
