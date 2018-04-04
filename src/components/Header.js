@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'gatsby-link';
 import styled from 'styled-components';
 
-import { colors, pageLinks, maxMainWith } from './constants';
+import { colors, pageLinks } from './constants';
 import { media } from './Breakpoints';
 
 const NavWrapperStyled = styled.div`
@@ -20,20 +20,10 @@ const NavWrapperStyled = styled.div`
   }
   &.fixed {
     background-color: ${props => props.backgroundWhenFixed};
-    width: ${maxMainWith};
-    position: fixed;
+    width: 100%;
+    position: sticky;
     top: 0;
   }
-  ${media.giant`
-    &.fixed {
-      width: calc(100% - (var(--padding-base) * 4));
-    }
-  `};
-  ${media.tablet`
-    &.fixed {
-      width: calc(100% - var(--padding-base) * 2);
-    }
-  `};
 `;
 
 const HeaderStyled = styled.ul`
@@ -68,6 +58,9 @@ const HeaderStyled = styled.ul`
       li {
         display: unset;
       }
+    }
+    .fixed #mobileMenuCheckbox:checked ~ & {
+      top: 0;
     }
   `};
 `;
