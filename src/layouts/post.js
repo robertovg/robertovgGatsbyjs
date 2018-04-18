@@ -24,6 +24,24 @@ export default function Template({ data }) {
       <time>{post.frontmatter.date}</time>
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
       <Link to="/blog">Go back to the blog section.</Link>
+      <div id="disqus_thread" />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            var disqus_config = function () {
+            this.page.url = 'https://robertovg.com';
+            this.page.identifier = '${post.frontmatter.path}';
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://robertovg-com.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        `,
+        }}
+      />
     </PostStyled>
   );
 }
