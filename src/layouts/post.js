@@ -32,7 +32,6 @@ export default function Template({ data }) {
             this.page.url = 'https://robertovg.com';
             this.page.identifier = '${post.frontmatter.path}';
             };
-            */
             (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
             s.src = 'https://robertovg-com.disqus.com/embed.js';
