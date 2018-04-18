@@ -115,7 +115,6 @@ const MobileMenuAnchor = styled.li`
   justify-self: end;
   .fixed & {
     top: 0;
-    right: 0;
   }
   div {
     padding: 15px;

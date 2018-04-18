@@ -7,6 +7,7 @@
     "@fortawesome/fontawesome": "^1.1.4",
     "@fortawesome/fontawesome-free-brands": "^5.0.7",
     "@fortawesome/react-fontawesome": "0.0.17",
+    "cookieconsent": "^3.0.6",
     "gatsby": "^1.9.219",
     "gatsby-image": "^1.0.39",
     "gatsby-link": "^1.6.39",
@@ -22,6 +23,7 @@
     "gatsby-source-filesystem": "^1.5.24",
     "gatsby-transformer-remark": "^1.7.30",
     "gatsby-transformer-sharp": "^1.6.21",
+    "react-cookie-consent": "^1.0.4",
     "react-helmet": "^5.2.0",
     "styled-components": "^3.1.6"
   },

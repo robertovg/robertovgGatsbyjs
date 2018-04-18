@@ -9,7 +9,8 @@ import {
   faLastfm,
   faTwitter,
 } from '@fortawesome/fontawesome-free-brands';
-import { colors } from './constants';
+import CookieConsent from 'react-cookie-consent';
+import { colors, pageLinks } from './constants';
 import { media } from './Breakpoints';
 
 const FooterWrapperStyled = styled.div`
@@ -53,6 +54,12 @@ const SocialLinkStyled = styled.a`
   ${media.phone`
     font-size: 1.5rem;
   `};
+`;
+const CookiesContent = styled.div`
+  margin-right: 15px;
+  a {
+    color: ${colors.lightTextColor};
+  }
 `;
 
 SocialLinkStyled.propsTypes = {
@@ -112,6 +119,33 @@ const Footer = () => {
           </SocialLinkStyled>
         ))}
       </SocialWrapperStyled>
+      <CookieConsent
+        location="bottom"
+        buttonText="Got it!"
+        style={{
+          background: pageLinks[0].gradientTop,
+          display: 'grid',
+          gridAutoFlow: 'column',
+          justifyContent: 'center'
+        }}
+        buttonStyle={{
+          backgroundColor: pageLinks[0].gradientBottom,
+          fontSize: 'large',
+          cursor: 'pointer',
+          padding: '0.3rem 1rem',
+          borderRadius: '3px',
+          right: 'unset',
+          position: 'unset',
+          marginRight: '1rem'
+        }}
+      >
+        <CookiesContent>
+          This website uses cookies to ensure you get the best experience on our website.{' '}
+          <a target="_blank" rel="noopener noreferrer" href="http://cookiesandyou.com/">
+            Learn more
+          </a>{' '}
+        </CookiesContent>
+      </CookieConsent>
     </FooterWrapperStyled>
   );
 };
