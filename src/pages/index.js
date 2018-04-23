@@ -30,7 +30,7 @@ const IndexStyled = styled.section`
 const IndexPage = ({ data }) => (
   <IndexStyled>
     <h2 className="general__pageTitle">Home</h2>
-    <h1 className="index__title">My name is Roberto</h1>
+    <article className="index__title">My name is Roberto</article>
     <article className="index__subtitle">
       I am an organized and enthusiast <mark>Javascript Engineer</mark> with
       <mark> 10+ years experience</mark> and a passion for <mark>development</mark>.
