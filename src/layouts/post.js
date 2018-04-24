@@ -19,10 +19,10 @@ const PostStyled = styled.section`
 function createDisqusSnippet(post) {
   return {
     __html: `
-    document.addEventListener("DOMContentLoaded", (event) => {
       var disqus_config = function () {
       this.page.url = 'https://robertovg.com';
       this.page.identifier = '${post.frontmatter.path}';
+      this.page.title = '${post.frontmatter.title}';
       };
       (function() { // DON'T EDIT BELOW THIS LINE
       var d = document, s = d.createElement('script');
@@ -30,7 +30,14 @@ function createDisqusSnippet(post) {
       s.setAttribute('data-timestamp', +new Date());
       (d.head || d.body).appendChild(s);
       })();
-    });
+      console.log('SCRIPTContentLoaded');
+      document.addEventListener("DOMContentLoaded", (event) => {
+        console.log('DOMContentLoaded');
+        DISQUS && DISQUS.reset({
+            reload: true,
+            config: disqus_config
+        });
+      });
   `,
   };
 }
@@ -38,6 +45,7 @@ function createDisqusSnippet(post) {
 export default function Template({ data }) {
   const { markdownRemark: post } = data;
   const postTags = post.frontmatter.tags || ['brilliant idea'];
+  console.log();
   return (
     <PostStyled>
       <Helmet
