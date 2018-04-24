@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
+import Helmet from 'react-helmet';
 import Link from 'gatsby-link';
 import styled from 'styled-components';
 
@@ -14,10 +15,55 @@ const PostStyled = styled.section`
     max-height: 70vh;
   }
 `;
+
+function createDisqusSnippet(post) {
+  return {
+    __html: `
+    document.addEventListener("DOMContentLoaded", (event) => {
+      var disqus_config = function () {
+      this.page.url = 'https://robertovg.com';
+      this.page.identifier = '${post.frontmatter.path}';
+      };
+      (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = 'https://robertovg-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      })();
+    });
+  `,
+  };
+}
+
 export default function Template({ data }) {
   const { markdownRemark: post } = data;
+  const postTags = post.frontmatter.tags || ['brilliant idea'];
   return (
     <PostStyled>
+      <Helmet
+        title={`${post.frontmatter.title} - Roberto Vázquez González Site`}
+        meta={[
+          {
+            name: 'description',
+            content: `${post.frontmatter.title} - Roberto Vázquez González Site`,
+          },
+          {
+            name: 'keywords',
+            content: `${postTags.join(',')},developer,
+            frontend,
+            digitalNomad,
+            remote,
+            javascript,
+            es6,
+            react,
+            angular,
+            css,
+            webpack,
+            graphql,
+            redux-saga`,
+          },
+        ]}
+      />
       <h2 className="general__pageTitle">Blog Post</h2>
       <Img sizes={post.frontmatter.featuredImage.childImageSharp.sizes} />
       <h1>{post.frontmatter.title}</h1>
@@ -25,23 +71,7 @@ export default function Template({ data }) {
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
       <Link to="/blog">Go back to the blog section.</Link>
       <div id="disqus_thread" />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            var disqus_config = function () {
-            this.page.url = 'https://robertovg.com';
-            this.page.identifier = '${post.frontmatter.path}';
-            };
-            setTimeout(() => {
-            // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://robertovg-com.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            d.body.appendChild(s);
-            }, 500);
-        `,
-        }}
-      />
+      <script dangerouslySetInnerHTML={createDisqusSnippet(post)} />
     </PostStyled>
   );
 }
@@ -61,6 +91,7 @@ export const postQuery = graphql`
           }
         }
         date(formatString: "DD MMMM, YYYY")
+        tags
       }
     }
   }

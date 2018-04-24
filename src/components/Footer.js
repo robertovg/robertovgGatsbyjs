@@ -122,11 +122,12 @@ const Footer = () => {
       <CookieConsent
         location="bottom"
         buttonText="Got it!"
+        cookieName="robertovg"
         style={{
           background: pageLinks[0].gradientTop,
           display: 'grid',
           gridAutoFlow: 'column',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}
         buttonStyle={{
           backgroundColor: pageLinks[0].gradientBottom,
@@ -136,7 +137,7 @@ const Footer = () => {
           borderRadius: '3px',
           right: 'unset',
           position: 'unset',
-          marginRight: '1rem'
+          marginRight: '1rem',
         }}
       >
         <CookiesContent>

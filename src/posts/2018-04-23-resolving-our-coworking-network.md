@@ -52,7 +52,7 @@ But the people connected through the repeater had problems, pages loading very s
 
 ## Changing to a Ubiquiti mesh system - [Amplifi](https://amplifi.com/)
 
-I read about Mesh systems time ago and was something I wanted to try, the idea made sense, create a modular network system which is prepared from the beginning to add new nodes to the network, so those "repeaters" are smarter ( aware of any other point added ) and they don't cause saturations problems like usual repeaters in do.
+I read about Mesh systems time ago and was something I wanted to try, the idea made sense, create a modular network system which is prepared from the beginning to add new nodes to the network, so those "repeaters" are smarter ( aware of any other point added ) and they don't cause saturations problems like usual repeaters do.
 
 Additionally, a friend of mine told me time ago about Ubiquiti, this is not maybe the faster solution ( looking to the speed test results ), and maybe people say there are betters solutions, more sophisticated...
 
