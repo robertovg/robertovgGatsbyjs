@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'gatsby-link';
+import Helmet from 'react-helmet';
 import { colors } from '../components/constants';
 
 const ProjectsStyled = styled.section`
@@ -28,6 +29,7 @@ const ProjectsStyled = styled.section`
 
 const ProjectsPage = () => (
   <ProjectsStyled>
+    <Helmet title="Blog - Roberto Vázquez González Site" />
     <h2 className="general__pageTitle">Side Projects</h2>
     <summary>
       I love to evolve and develop new skills by taking on new projects such as side business, which

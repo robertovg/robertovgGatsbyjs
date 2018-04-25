@@ -3,6 +3,7 @@ import Link from 'gatsby-link';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import styled from 'styled-components';
+import Helmet from 'react-helmet';
 import { colors } from '../components/constants';
 import { media } from '../components/Breakpoints';
 
@@ -65,6 +66,7 @@ const BlogItemSummaryStyled = styled.div`
 `;
 const BlogPage = ({ data }) => (
   <BlogStyled>
+    <Helmet title="Blog - Roberto Vázquez González Site" />
     <h2 className="general__pageTitle">Blog Posts</h2>
     <summary>In this section you can find posts I occasionally create.</summary>
     <ul>

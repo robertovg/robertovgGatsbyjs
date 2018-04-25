@@ -8,6 +8,7 @@
     "@fortawesome/fontawesome-free-brands": "^5.0.7",
     "@fortawesome/react-fontawesome": "0.0.17",
     "cookieconsent": "^3.0.6",
+    "disqus-react": "^1.0.5",
     "gatsby": "^1.9.219",
     "gatsby-image": "^1.0.39",
     "gatsby-link": "^1.6.39",

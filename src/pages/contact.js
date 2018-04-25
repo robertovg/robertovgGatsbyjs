@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import styled from 'styled-components';
 
 const ContactStyled = styled.section`
@@ -12,6 +13,7 @@ const ContactStyled = styled.section`
 
 const ContactPage = () => (
   <ContactStyled>
+    <Helmet title="Contact - Roberto Vázquez González Site" />
     <h2 className="general__pageTitle">Contact Me</h2>
     <article>
       If you have any questions about my professional experience and/or skills or just want to to

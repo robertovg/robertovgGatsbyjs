@@ -4,6 +4,7 @@ import Img from 'gatsby-image';
 import Helmet from 'react-helmet';
 import Link from 'gatsby-link';
 import styled from 'styled-components';
+import { DiscussionEmbed } from 'disqus-react';
 
 const PostStyled = styled.section`
   h1 {
@@ -15,32 +16,6 @@ const PostStyled = styled.section`
     max-height: 70vh;
   }
 `;
-
-function createDisqusSnippet(post) {
-  return {
-    __html: `
-      var disqus_config = function () {
-      this.page.url = 'https://robertovg.com';
-      this.page.identifier = '${post.frontmatter.path}';
-      this.page.title = '${post.frontmatter.title}';
-      };
-      (function() { // DON'T EDIT BELOW THIS LINE
-      var d = document, s = d.createElement('script');
-      s.src = 'https://robertovg-com.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-      })();
-      console.log('SCRIPTContentLoaded');
-      document.addEventListener("DOMContentLoaded", (event) => {
-        console.log('DOMContentLoaded');
-        DISQUS && DISQUS.reset({
-            reload: true,
-            config: disqus_config
-        });
-      });
-  `,
-  };
-}
 
 export default function Template({ data }) {
   const { markdownRemark: post } = data;
@@ -78,8 +53,14 @@ export default function Template({ data }) {
       <time>{post.frontmatter.date}</time>
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
       <Link to="/blog">Go back to the blog section.</Link>
-      <div id="disqus_thread" />
-      <script dangerouslySetInnerHTML={createDisqusSnippet(post)} />
+      <DiscussionEmbed
+        shortname="robertovg"
+        config={{
+          url: 'https://robertovg.com',
+          identifier: post.frontmatter.path,
+          title: post.frontmatter.title,
+        }}
+      />
     </PostStyled>
   );
 }

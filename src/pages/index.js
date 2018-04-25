@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'gatsby-link';
+import Helmet from 'react-helmet';
 import styled from 'styled-components';
 
 const IndexStyled = styled.section`
@@ -29,6 +30,7 @@ const IndexStyled = styled.section`
 
 const IndexPage = ({ data }) => (
   <IndexStyled>
+    <Helmet title="Home - Roberto Vázquez González Site" />
     <h2 className="general__pageTitle">Home</h2>
     <article className="index__title">My name is Roberto</article>
     <article className="index__subtitle">

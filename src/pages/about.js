@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'gatsby-link';
 import Img from 'gatsby-image';
 import styled from 'styled-components';
+import Helmet from 'react-helmet';
 import { media } from '../components/Breakpoints';
 
 const AboutStyled = styled.section`
@@ -29,6 +30,7 @@ const AboutStyled = styled.section`
 `;
 const AboutPage = ({ data }) => (
   <AboutStyled>
+    <Helmet title="About - Roberto Vázquez González Site" />
     <h2 className="general__pageTitle">About me</h2>
     <div className="about__avatar">
       <Img sizes={data.background.sizes} />
