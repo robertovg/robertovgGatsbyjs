@@ -54,9 +54,9 @@ export default function Template({ data }) {
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
       <Link to="/blog">Go back to the blog section.</Link>
       <DiscussionEmbed
-        shortname="robertovg"
+        shortname="robertovg-com"
         config={{
-          url: `https://robertovg.com${post.frontmatter.path}`,
+          url: post.frontmatter.path,
           identifier: post.frontmatter.path,
           title: post.frontmatter.title,
         }}
