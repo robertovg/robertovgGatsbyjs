@@ -43,3 +43,11 @@ I found another magic plugin to avoid this problem and additionally process exte
 ### Comments
 
 Just [discuss](https://disqus.com) the official [disqus-react](https://github.com/disqus/disqus-react) component for the blog posts pages.
+
+### Sitemap
+
+gatsby-plugin-sitemap
+
+### Feed
+
+gatsby-plugin-feed-generator
