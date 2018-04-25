@@ -56,7 +56,7 @@ export default function Template({ data }) {
       <DiscussionEmbed
         shortname="robertovg"
         config={{
-          url: 'https://robertovg.com',
+          url: `https://robertovg.com${post.frontmatter.path}`,
           identifier: post.frontmatter.path,
           title: post.frontmatter.title,
         }}
