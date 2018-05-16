@@ -79,7 +79,7 @@ export const postQuery = graphql`
             }
           }
         }
-        date(formatString: "DD MMMM, YYYY")
+        date(formatString: "DD MMM, YYYY")
         tags
       }
     }
