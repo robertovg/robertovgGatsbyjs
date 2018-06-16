@@ -78,7 +78,7 @@ export const pageQuery = graphql`
     allMarkdownRemark(
       sort: { order: DESC, fields: [frontmatter___date] }
       filter: { frontmatter: { published: { eq: true } } }
-      limit: 2
+      limit: 4
     ) {
       totalCount
       edges {

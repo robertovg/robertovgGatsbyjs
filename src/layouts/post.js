@@ -6,6 +6,8 @@ import Link from 'gatsby-link';
 import styled from 'styled-components';
 import { DiscussionEmbed } from 'disqus-react';
 
+require('prismjs/themes/prism.css');
+
 const PostStyled = styled.section`
   h1 {
     font-size: 1.5rem;
@@ -14,6 +16,13 @@ const PostStyled = styled.section`
     margin-bottom: 1rem;
     width: 100%;
     max-height: 70vh;
+  }
+  .gatsby-highlight pre {
+    margin: 0 auto;
+    width: 45em;
+    max-width: calc(100vw - 6em);
+    max-height: 30rem;
+    overflow: auto;
   }
 `;
 
