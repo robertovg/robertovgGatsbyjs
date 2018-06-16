@@ -112,8 +112,8 @@ const ProjectsPage = () => (
               </a>{' '}
             </h4>
             ,continuation and updated version of the output from the levelUpTuts tutorial called
-            [Level 2 React Native With
-            Graphql](https://www.leveluptutorials.com/tutorials/level-2-react). Basically here you
+            Level 2 React Native With
+            Graphql. Basically here you
             will find the next steps, as far as I understand, I would follow to move the output of
             this tutorial to be used as a real application with both, expo and react-native-scripts,
             and, additional, little improvements I wanted to put in practice with this good and
