@@ -25,11 +25,9 @@ const PostStyled = styled.section`
     overflow: auto;
   }
 `;
-
 export default function Template({ data }) {
   const { markdownRemark: post } = data;
   const postTags = post.frontmatter.tags || ['brilliant idea'];
-  console.log();
   return (
     <PostStyled>
       <Helmet

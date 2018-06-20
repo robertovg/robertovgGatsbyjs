@@ -6,7 +6,7 @@ import {
   faGithub,
   faLinkedinIn,
   faInstagram,
-  faLastfm,
+  faMedium,
   faTwitter,
 } from '@fortawesome/fontawesome-free-brands';
 import CookieConsent from 'react-cookie-consent';
@@ -90,10 +90,10 @@ const Footer = () => {
       icon: faInstagram,
     },
     {
-      label: 'Last.fm',
-      link: 'https://www.last.fm/user/robertovg24',
-      color: '#b90000',
-      icon: faLastfm,
+      label: 'Medium',
+      link: 'https://medium.com/@robertovg',
+      color: '#000000',
+      icon: faMedium,
     },
     {
       label: 'Twitter',
