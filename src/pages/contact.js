@@ -20,7 +20,6 @@ const ContactPage = () => (
       get in touch, do not hesitate to use the following form.
     </article>
     <form name="contactMe" method="post" action="/thanks/" data-netlify="true">
-      <div data-netlify-recaptcha />
       <input type="hidden" name="form-name" value="contactMe" />
       <label htmlFor="name">Name</label>
       <input name="name" type="text" autoComplete="name" placeholder="What's your name?" required />
@@ -40,6 +39,7 @@ const ContactPage = () => (
         placeholder="What do you want to say?"
         required
       />
+      <div data-netlify-recaptcha />
       <button>Send it!</button>
     </form>
   </ContactStyled>
