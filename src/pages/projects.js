@@ -112,11 +112,7 @@ const ProjectsPage = () => (
               </a>{' '}
             </h4>
             is a simple npm script to extract{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://www.npmjs.com/package/wappalyzer-to-md"
-            >
+            <a target="_blank" rel="noopener noreferrer" href="https://www.wappalyzer.com">
               wappalyzer
             </a>{' '}
             information in markdown format to the clipboard.
