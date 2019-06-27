@@ -37,9 +37,9 @@ const AboutPage = ({ data }) => (
     </div>
     <article>
       My name is Roberto Vázquez González. I'm a Spanish freelance programmer based in Conil de la
-      Frontera (Spain). I've been successfully working remotely for over 4 years. I have more than
-      ten years' extensive experience as a full stack web developer. For the past four years, I've
-      been the lead frontend developer for a London-based startup called{' '}
+      Frontera (Spain). I've been successfully working remotely 5+ years. I have more than ten
+      years' extensive experience as a full stack web developer. For the past four years, I've been
+      the lead frontend developer for a London-based startup called{' '}
       <a target="_blank" rel="noopener noreferrer" href="https://precursive.com/">
         Precursive
       </a>. If you are interested to get more details about my CV, feel free to{' '}
