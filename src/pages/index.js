@@ -34,11 +34,11 @@ const IndexPage = ({ data }) => (
     <h2 className="general__pageTitle">Home</h2>
     <article className="index__title">My name is Roberto</article>
     <article className="index__subtitle">
-      I am an organized and enthusiast <mark>Javascript Engineer</mark> with
+      I am an organized and enthusiastic <mark>Javascript Engineer</mark> with
       <mark> 10+ years experience</mark> and a passion for <mark>development</mark>.
     </article>
     <article className="index__tagline1">
-      Currently I am focus on the <mark>frontend, UX, and FP</mark>.
+      Currently I am focused on the <mark>frontend, UX, and FP</mark>.
     </article>
     <article className="index__tagline2">
       <mark>
