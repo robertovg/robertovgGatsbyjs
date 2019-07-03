@@ -35,7 +35,7 @@ I've created a lot of `.sh` in my career to automate dev processes, deployments,
 So also the point of this "exercise" was not only to resolve it but with some restrictions to learn something in the way.
 
 * I wanted unit tests.
-* I wanted to use modules and last es6 syntax not just (it was execute inside node, so I knew it was going to be a pain point).
+* I wanted to use modules and last es6 syntax not just (it was executed inside node, so I knew it was going to be a pain point).
 * Register it to npm register so anyone can use it in the future or by anyone else.
 * And of course publish it in Github, so maybe someone can use it or make modifications to it in the future.
 
@@ -67,8 +67,6 @@ So now let's add the `.babelrc` and `eslint` configuration:
 
 First we install what we need for our configuration:
 
-First the babel needed items
-
 ```bash
 npm install --save-dev @babel/core @babel/cli @babel/preset-env @babel/node
 ```
@@ -81,7 +79,7 @@ And the `.babelrc` file looks like that:
 }
 ```
 
-Then the eslint ones, as I'm unable to work nowdays without eslint + prettier. So again with dev dependencies:
+Then the eslint ones, as I'm unable to work nowadays without eslint + prettier. So again with dev dependencies:
 
 ```bash
 npm install --save-dev babel-eslint eslint eslint-config-node eslint-config-prettier eslint-plugin-prettier babel-loader babel-polyfill
@@ -156,7 +154,7 @@ And again the configuration file (`.eslintrc`) was something like that, after so
 
 ### Libraries to use and package setup `npm build`
 
-Then we needed to be able to use `babel` transformation process to the build the ./src, and connect it in the `bin` script.
+Then we needed to be able to use `babel` transformation process to build the ./src, and connect it in the `bin` script.
 
 ```js
 {
@@ -173,7 +171,7 @@ Then we needed to be able to use `babel` transformation process to the build the
 }
 ```
 
-With the previous configuration we are able to execute the `babel` compiled sources. And we can update them each time we build the project.
+With the previous configuration, we are able to execute the `babel` compiled sources. And we can update them each time we build the project.
 
 So let's create also our first file which will be our start point of the script `/src/cli.js`:
 
@@ -198,7 +196,7 @@ const [, , url] = process.argv;
 })();
 ```
 
-We are not only creating the file but defining the "script workflow" with it splitting it to be able to work with test in the correct way 💁‍.
+We are not only creating the file but defining the "script workflow" with it splitting it to be able to work with tests in the correct way 💁‍.
 
 ### Executing the project with `npm link`
 
@@ -233,7 +231,7 @@ npm install --save-dev jest babel-jest
 
 And having the `jest --watchAll` in the `test` script made me able to execute `npm test`
 
-I got this issues: `ReferenceError: regeneratorRuntime is not defined` described [here](https://github.com/babel/babel/issues/5085) and I got it resolved by specifying the target for babel in the `.babelrc`.
+I got these issues: `ReferenceError: regeneratorRuntime is not defined` described [here](https://github.com/babel/babel/issues/5085) and I got it resolved by specifying the target for babel in the `.babelrc`.
 
 ```js
 {
@@ -253,7 +251,7 @@ Then I was able to start coding with `npm test` running as usual with any `js` p
 
 ### Implementing the plan
 
-For the implementation we need only 3 libraries the two already described `wappalyzer` and `clipboardy` and the indispensable `lodash` one.
+For the implementation, we need only 3 libraries the two already described `wappalyzer` and `clipboardy` and the indispensable `lodash` one.
 
 ```bash
 npm install lodash clipboardy wappalyzer
@@ -261,16 +259,16 @@ npm install lodash clipboardy wappalyzer
 
 You have the full project available in my [Github](https://github.com/robertovg/wappalyzer-to-md) account to check it, use it, adapt or improve it.
 
-Basically I created the following folder structure for each of the steps described in the `cli.js` backbone:
+Basically, I created the following folder structure for each of the steps described in the `cli.js` backbone:
 
 * **validation**: To have params validations, as in the cli the inputs are coming from the call args.
 * **data**: To wrap the logic of using the `Wappalyzer` npm module and test it.
-* **logic**: for me the logic in this program was to transfer the Json output from `Wappalyzer` to the "standard" markdown I was try create. Pretty straight and quite exciting to create in an elegant way 🤓
-* **output**: in the script we haven't view, but we do have output logic, so again I decided to isolate the `clipboardy` logic and wrap in the logic folder.
+* **logic**: for me, the logic in this program was to transfer the Json output from `Wappalyzer` to the "standard" markdown I was trying to create. Pretty straight and quite exciting to create in an elegant way 🤓
+* **output**: in the script, we haven't viewed, but we do have output logic, so again I decided to isolate the `clipboardy` logic and wrap in the logic folder.
 
-These are the main parts of the small script project, I think the best way to know how each part works, as I think we should always do, it's just to read the `specs` test on each folder to then understand then easy `cli.js` file which orchestrate the script pieces.
+These are the main parts of the small script project, I think the best way to know how each part works, as I think we should always do, it's just to read the `specs` test on each folder to then understand then easy `cli.js` file which orchestrates the script pieces.
 
-Additionally to execute before register the script project, we should `npm link` the project an execute it again now with valid params like:
+Additionally, to execute before register the script project, we should `npm link` the project an execute it again now with valid params like:
 
 ```bash
 npx wappalyzer-to-md https://robertovg.com
@@ -294,7 +292,7 @@ And listed publicly in npm [register](https://www.npmjs.com/package/wappalyzer-t
 
 ## Conclusion
 
-Nothing crazy here, but funny for me to use my web toolset to make a script. I will try to use this aproach when I see the opportunity in the future if I need to resolve scripting challenges again.
+Nothing crazy here, but funny for me to use my web toolset to make a script. I will try to use this approach when I see the opportunity in the future if I need to resolve scripting challenges again.
 
 Have you ever use `npm script` in this way? Do you see improvements in the way I use it? Or maybe do you have any doubt? I'm always happy to learn from any feedback and hopefully, this can be useful not just for me but for anyone facing problems which could be resolved by `npm scripts`.
 
