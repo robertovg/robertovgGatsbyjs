@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Img from 'gatsby-image';
-import Helmet from 'react-helmet';
-import Link from 'gatsby-link';
-import styled from 'styled-components';
-import { DiscussionEmbed } from 'disqus-react';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Img from 'gatsby-image'
+import Helmet from 'react-helmet'
+import Link from 'gatsby-link'
+import styled from 'styled-components'
+import { DiscussionEmbed } from 'disqus-react'
 
-require('prismjs/themes/prism.css');
+require('prismjs/themes/prism.css')
 
 const PostStyled = styled.section`
   h1 {
@@ -24,10 +24,10 @@ const PostStyled = styled.section`
     max-height: 30rem;
     overflow: auto;
   }
-`;
+`
 export default function Template({ data }) {
-  const { markdownRemark: post } = data;
-  const postTags = post.frontmatter.tags || ['brilliant idea'];
+  const { markdownRemark: post } = data
+  const postTags = post.frontmatter.tags || ['brilliant idea']
   return (
     <PostStyled>
       <Helmet
@@ -69,7 +69,7 @@ export default function Template({ data }) {
         }}
       />
     </PostStyled>
-  );
+  )
 }
 
 export const postQuery = graphql`
@@ -91,15 +91,15 @@ export const postQuery = graphql`
       }
     }
   }
-`;
+`
 
 /**
  * Prop types
  */
 Template.propTypes = {
   data: PropTypes.object,
-};
+}
 
 Template.defaultProps = {
   data: {},
-};
+}

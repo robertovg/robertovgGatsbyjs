@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Link from 'gatsby-link';
-import Helmet from 'react-helmet';
-import styled from 'styled-components';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Link from 'gatsby-link'
+import Helmet from 'react-helmet'
+import styled from 'styled-components'
 
 const IndexStyled = styled.section`
   display: grid;
@@ -26,7 +26,7 @@ const IndexStyled = styled.section`
     grid-area: 4 / 1 / -1 /-1;
     z-index: 1;
   }
-`;
+`
 
 const IndexPage = ({ data }) => (
   <IndexStyled>
@@ -54,7 +54,8 @@ const IndexPage = ({ data }) => (
         </span>
         <span role="img" aria-label="music & playing guitar">
           🎸
-        </span>.
+        </span>
+        .
       </mark>
     </article>
     <article className="index__news">
@@ -70,8 +71,8 @@ const IndexPage = ({ data }) => (
       </ul>
     </article>
   </IndexStyled>
-);
-export default IndexPage;
+)
+export default IndexPage
 
 export const pageQuery = graphql`
   query LastPostsQuery {
@@ -92,14 +93,14 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`
 
 /**
  * Prop types
  */
 IndexPage.propTypes = {
   data: PropTypes.object,
-};
+}
 
 IndexPage.defaultProps = {
   data: {
@@ -107,4 +108,4 @@ IndexPage.defaultProps = {
       edges: [],
     },
   },
-};
+}

@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'gatsby-link';
-import Helmet from 'react-helmet';
+import React from 'react'
+import Link from 'gatsby-link'
+import Helmet from 'react-helmet'
 
 const ThanksPage = () => (
   <div>
@@ -15,5 +15,5 @@ const ThanksPage = () => (
     </p>
     <Link to="/">Back to the home site.</Link>
   </div>
-);
-export default ThanksPage;
+)
+export default ThanksPage

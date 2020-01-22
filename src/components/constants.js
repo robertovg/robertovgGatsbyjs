@@ -2,20 +2,27 @@ export const colors = {
   darkTextColor: '#000',
   lightTextColor: '#fff',
   mediaColor: 'rgb(85, 26, 139)',
+  linkColor: '#0000EE',
   bordersColor: '#ccc',
   contentWrappersBackground: 'rgba(85, 26, 139, 0.05)',
   mainContentWrapper: 'rgba(255, 255, 255, 1)',
   gradientTop: '#3b10bb',
   gradientBottom: '#1cefff',
   blogItemHoverBG: 'rgba(72, 123, 49, 0.75)',
-};
-export const maxMainWith = '1200px';
+}
+export const maxMainWith = '1200px'
 export const pageLinks = [
   {
     label: '',
     link: '/',
     gradientTop: '#053768',
     gradientBottom: '#1cefff',
+  },
+  {
+    label: '',
+    link: '/uses/',
+    gradientTop: '#b96417',
+    gradientBottom: '#ffcd7e',
   },
   {
     label: 'about',
@@ -41,4 +48,4 @@ export const pageLinks = [
     gradientTop: '#487b31',
     gradientBottom: '#bbf96d',
   },
-];
+]

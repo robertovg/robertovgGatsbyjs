@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import styled from 'styled-components';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Helmet from 'react-helmet'
+import styled from 'styled-components'
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
-import './index.css';
-import { colors, pageLinks, maxMainWith } from '../components/constants';
-import { media } from '../components/Breakpoints';
+import './index.css'
+import { colors, pageLinks, maxMainWith } from '../components/constants'
+import { media } from '../components/Breakpoints'
 
 function getActualPage(href) {
-  const foundPage = pageLinks.find(e => e.link !== '/' && href.match(e.link));
-  return foundPage || pageLinks[0];
+  const foundPage = pageLinks.find(e => e.link !== '/' && href.match(e.link))
+  return foundPage || pageLinks[0]
 }
 
 const GatsbyStyled = styled.div`
@@ -26,7 +26,7 @@ const GatsbyStyled = styled.div`
   ${media.tablet`
     padding: var(--padding-base);
   `};
-`;
+`
 const PageStyled = styled.main`
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
   margin: 0 auto;
@@ -57,13 +57,13 @@ const PageStyled = styled.main`
       left: var(--padding-base);
     }
   `};
-`;
+`
 
 const BodyStyled = styled.div`
   grid-area: body;
   padding: var(--padding-base);
-`;
-const parentContainer = 'content_container';
+`
+const parentContainer = 'content_container'
 const TemplateWrapper = ({ children, location }) => (
   <GatsbyStyled actualPage={getActualPage(location.pathname)} id={parentContainer}>
     <Helmet
@@ -96,9 +96,9 @@ const TemplateWrapper = ({ children, location }) => (
       <Footer />
     </PageStyled>
   </GatsbyStyled>
-);
+)
 
-export default TemplateWrapper;
+export default TemplateWrapper
 
 /**
  * Prop types
@@ -106,9 +106,9 @@ export default TemplateWrapper;
 TemplateWrapper.propTypes = {
   children: PropTypes.func,
   location: PropTypes.object,
-};
+}
 
 TemplateWrapper.defaultProps = {
   children() {},
   location: {},
-};
+}

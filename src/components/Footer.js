@@ -1,17 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import {
   faGithub,
   faLinkedinIn,
   faInstagram,
   faMedium,
   faTwitter,
-} from '@fortawesome/fontawesome-free-brands';
-import CookieConsent from 'react-cookie-consent';
-import { colors, pageLinks } from './constants';
-import { media } from './Breakpoints';
+} from '@fortawesome/fontawesome-free-brands'
+import CookieConsent from 'react-cookie-consent'
+import { colors, pageLinks } from './constants'
+import { media } from './Breakpoints'
 
 const FooterWrapperStyled = styled.div`
   padding: 5px;
@@ -26,7 +26,7 @@ const FooterWrapperStyled = styled.div`
   &:hover {
     background-color: ${colors.contentWrappersBackground};
   }
-`;
+`
 const SocialWrapperStyled = styled.div`
   display: grid;
   grid-auto-flow: column;
@@ -39,7 +39,7 @@ const SocialWrapperStyled = styled.div`
   ${media.phone`
     grid-gap: unset;
   `};
-`;
+`
 const SocialLinkStyled = styled.a`
   padding: 5px 8px;
   border-radius: 3px;
@@ -54,21 +54,21 @@ const SocialLinkStyled = styled.a`
   ${media.phone`
     font-size: 1.5rem;
   `};
-`;
+`
 const CookiesContent = styled.div`
   margin-right: 15px;
   a {
     color: ${colors.lightTextColor};
   }
-`;
+`
 
 SocialLinkStyled.propsTypes = {
   color: PropTypes.string,
-};
+}
 
 SocialLinkStyled.defaultProps = {
   color: '#fff',
-};
+}
 const Footer = () => {
   const socialLinks = [
     {
@@ -101,7 +101,7 @@ const Footer = () => {
       color: '#1DA1F2',
       icon: faTwitter,
     },
-  ];
+  ]
 
   return (
     <FooterWrapperStyled>
@@ -148,7 +148,7 @@ const Footer = () => {
         </CookiesContent>
       </CookieConsent>
     </FooterWrapperStyled>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

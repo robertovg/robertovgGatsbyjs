@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import Link from 'gatsby-link';
-import Helmet from 'react-helmet';
-import { colors } from '../components/constants';
+import React from 'react'
+import styled from 'styled-components'
+import Link from 'gatsby-link'
+import Helmet from 'react-helmet'
+import { colors } from '../components/constants'
 
 const ProjectsStyled = styled.section`
   summary {
@@ -25,7 +25,7 @@ const ProjectsStyled = styled.section`
   article {
     margin-bottom: 2rem;
   }
-`;
+`
 
 const ProjectsPage = () => (
   <ProjectsStyled>
@@ -200,13 +200,13 @@ const ProjectsPage = () => (
           GitHub
         </a>
         . The backend consists of a Node.js + Express.js server, running in OpenShift, with
-        mongoose.js to connect to a MongoLab instance. The codebase for this can be found also at{' '}
+        mongoose.js to connect to a MongoLab instance. The codebase for this can be found also
         <a
           target="_blank"
           rel="noopener noreferrer"
           href="https://github.com/robertovg/steroids-gateway"
         >
-          GitHub
+          on GitHub
         </a>
         . Both, server and client side, use mocha.js and sinon.js for testing.
       </div>
@@ -221,12 +221,13 @@ const ProjectsPage = () => (
         technology on Server. Sources published on{' '}
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/robertovg/timelapse">
           GitHub
-        </a>. This project got a "Exceptional Undergraduate Dissertation Award" by the Escuela
-        Técnica Superior de Ingeniería e Informática, ETSII (where I studied my Bachelor’s Degree in
+        </a>
+        . This project got a "Exceptional Undergraduate Dissertation Award" by the Escuela Técnica
+        Superior de Ingeniería e Informática, ETSII (where I studied my Bachelor’s Degree in
         Computer Software Engineering)
       </div>
     </article>
   </ProjectsStyled>
-);
+)
 
-export default ProjectsPage;
+export default ProjectsPage

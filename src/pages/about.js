@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Link from 'gatsby-link';
-import Img from 'gatsby-image';
-import styled from 'styled-components';
-import Helmet from 'react-helmet';
-import { media } from '../components/Breakpoints';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Link from 'gatsby-link'
+import Img from 'gatsby-image'
+import styled from 'styled-components'
+import Helmet from 'react-helmet'
+import { media } from '../components/Breakpoints'
 
 const AboutStyled = styled.section`
   .about__avatar {
@@ -27,7 +27,7 @@ const AboutStyled = styled.section`
       width: 100%;
     }
   `};
-`;
+`
 const AboutPage = ({ data }) => (
   <AboutStyled>
     <Helmet title="About - Roberto Vázquez González Site" />
@@ -42,11 +42,13 @@ const AboutPage = ({ data }) => (
       the lead frontend developer for a London-based startup called{' '}
       <a target="_blank" rel="noopener noreferrer" href="https://precursive.com/">
         Precursive
-      </a>. If you are interested to get more details about my CV, feel free to{' '}
+      </a>
+      . If you are interested to get more details about my CV, feel free to{' '}
       <Link to="/contact/">contact me</Link> or check my profile on{' '}
       <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/robertovg">
         Linkedin
-      </a>.
+      </a>
+      .
     </article>
     <article>
       I practice Ashtanga Yoga 3+ times per week, usually before working at 7:30 am, Ashtanga really
@@ -69,8 +71,11 @@ const AboutPage = ({ data }) => (
       than ever and this has had a positive impact on my work, as I feel like I've managed to find
       the right life work balance.
     </article>
+    <article>
+      If you are interested in the my setup, visit my <a href="/uses/"> uses</a> page.
+    </article>
   </AboutStyled>
-);
+)
 export const pageQuery = graphql`
   query ImageBG {
     background: imageSharp(id: { regex: "/avatar.jpg/" }) {
@@ -79,16 +84,16 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
-export default AboutPage;
+`
+export default AboutPage
 
 /**
  * Prop types
  */
 AboutPage.propTypes = {
   data: PropTypes.object,
-};
+}
 
 AboutPage.defaultProps = {
   data: {},
-};
+}

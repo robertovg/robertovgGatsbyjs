@@ -1,6 +1,6 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import styled from 'styled-components';
+import React from 'react'
+import Helmet from 'react-helmet'
+import styled from 'styled-components'
 
 const ContactStyled = styled.section`
   form {
@@ -9,7 +9,7 @@ const ContactStyled = styled.section`
     grid-gap: 1rem;
     justify-content: center;
   }
-`;
+`
 
 const ContactPage = () => (
   <ContactStyled>
@@ -43,6 +43,6 @@ const ContactPage = () => (
       <button>Send it!</button>
     </form>
   </ContactStyled>
-);
+)
 
-export default ContactPage;
+export default ContactPage

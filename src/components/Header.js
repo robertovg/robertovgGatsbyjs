@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Link from 'gatsby-link';
-import styled from 'styled-components';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Link from 'gatsby-link'
+import styled from 'styled-components'
 
-import { colors, pageLinks } from './constants';
-import { media } from './Breakpoints';
+import { colors, pageLinks } from './constants'
+import { media } from './Breakpoints'
 
 const NavWrapperStyled = styled.div`
   grid-area: header;
@@ -24,7 +24,7 @@ const NavWrapperStyled = styled.div`
     position: sticky;
     top: 0;
   }
-`;
+`
 
 const HeaderStyled = styled.ul`
   margin: 0;
@@ -63,7 +63,7 @@ const HeaderStyled = styled.ul`
       top: 0;
     }
   `};
-`;
+`
 
 const HeaderLinkStyled = styled.li`
   transition: transform 200ms ease;
@@ -101,14 +101,14 @@ const HeaderLinkStyled = styled.li`
       color: ${colors.mediaColor};
     }
   `};
-`;
+`
 
 const HomeLinkStyled = styled(HeaderLinkStyled)`
   &.actual,
   &:hover span {
     color: ${props => props.gradientBottom};
   }
-`;
+`
 
 const MobileMenuAnchor = styled.li`
   display: none;
@@ -170,40 +170,40 @@ const MobileMenuAnchor = styled.li`
   ${media.tablet`
     display: unset;
   `};
-`;
+`
 
 class Header extends Component {
   state = {
     scrolledClass: 'notFixed',
     checked: false,
-  };
+  }
 
   componentDidMount() {
-    window.addEventListener('scroll', ev => this.handleScroll(ev));
-    window.addEventListener('resize', () => this.updateScrollableOffset());
-    this.updateScrollableOffset();
+    window.addEventListener('scroll', ev => this.handleScroll(ev))
+    window.addEventListener('resize', () => this.updateScrollableOffset())
+    this.updateScrollableOffset()
   }
-  scrollableOffset = 0;
+  scrollableOffset = 0
   /**
    * We try to update the offset of when we should fix the navbar in case of window resize
    */
   updateScrollableOffset() {
-    const { offsetTopQueryToElement } = this.props;
-    this.scrollableOffset = document.querySelector(offsetTopQueryToElement).offsetTop;
+    const { offsetTopQueryToElement } = this.props
+    this.scrollableOffset = document.querySelector(offsetTopQueryToElement).offsetTop
   }
   /**
    * Function executed each time we scroll, so we evaluate if the navbar is fixed or not
    */
   handleScroll() {
-    const scrolledClass = window.scrollY > this.scrollableOffset ? 'fixed' : 'notFixed';
+    const scrolledClass = window.scrollY > this.scrollableOffset ? 'fixed' : 'notFixed'
     this.setState({
       scrolledClass,
-    });
+    })
   }
 
   render() {
-    const { actualPage } = this.props;
-    const { scrolledClass, checked } = this.state;
+    const { actualPage } = this.props
+    const { scrolledClass, checked } = this.state
     return (
       <NavWrapperStyled className={scrolledClass} backgroundWhenFixed={actualPage.gradientTop}>
         <input type="checkbox" id="mobileMenuCheckbox" checked={checked} />
@@ -214,7 +214,7 @@ class Header extends Component {
               onClick={() => {
                 this.setState({
                   checked: !checked,
-                });
+                })
               }}
             >
               <div>
@@ -234,37 +234,39 @@ class Header extends Component {
               onClick={() => {
                 this.setState({
                   checked: false,
-                });
+                })
               }}
             >
               roberto<span>▼</span>g
             </Link>
           </HomeLinkStyled>
-          {pageLinks.filter(page => page.label).map(page => (
-            <HeaderLinkStyled
-              key={page.label}
-              gradientTop={page.gradientTop}
-              gradientBottom={page.gradientBottom}
-              className={actualPage.link === page.link ? 'actual' : ''}
-            >
-              <Link
-                to={page.link}
-                onClick={() => {
-                  this.setState({
-                    checked: false,
-                  });
-                }}
+          {pageLinks
+            .filter(page => page.label)
+            .map(page => (
+              <HeaderLinkStyled
+                key={page.label}
+                gradientTop={page.gradientTop}
+                gradientBottom={page.gradientBottom}
+                className={actualPage.link === page.link ? 'actual' : ''}
               >
-                {page.label}
-              </Link>
-            </HeaderLinkStyled>
-          ))}
+                <Link
+                  to={page.link}
+                  onClick={() => {
+                    this.setState({
+                      checked: false,
+                    })
+                  }}
+                >
+                  {page.label}
+                </Link>
+              </HeaderLinkStyled>
+            ))}
         </HeaderStyled>
       </NavWrapperStyled>
-    );
+    )
   }
 }
-export default Header;
+export default Header
 
 /**
  * Type Validations
@@ -272,9 +274,9 @@ export default Header;
 Header.propTypes = {
   offsetTopQueryToElement: PropTypes.string,
   actualPage: PropTypes.object,
-};
+}
 
 Header.defaultProps = {
   offsetTopQueryToElement: 'body',
   actualPage: pageLinks[0],
-};
+}

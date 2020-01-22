@@ -1,11 +1,11 @@
-import React from 'react';
-import Link from 'gatsby-link';
-import PropTypes from 'prop-types';
-import Img from 'gatsby-image';
-import styled from 'styled-components';
-import Helmet from 'react-helmet';
-import { colors } from '../components/constants';
-import { media } from '../components/Breakpoints';
+import React from 'react'
+import Link from 'gatsby-link'
+import PropTypes from 'prop-types'
+import Img from 'gatsby-image'
+import styled from 'styled-components'
+import Helmet from 'react-helmet'
+import { colors } from '../components/constants'
+import { media } from '../components/Breakpoints'
 
 const BlogStyled = styled.section`
   summary {
@@ -23,7 +23,7 @@ const BlogStyled = styled.section`
       list-style: none;
     }
   }
-`;
+`
 const BlogItemStyled = styled.article`
   display: grid;
   grid: auto / 200px 1fr;
@@ -55,15 +55,15 @@ const BlogItemStyled = styled.article`
       max-height: 100px;
     }
   `};
-`;
+`
 const FeaturedImageStyled = styled.div`
   background-color: ${colors.lightTextColor};
-`;
+`
 
 const BlogItemSummaryStyled = styled.div`
   align-self: center;
   align-content: center;
-`;
+`
 const BlogPage = ({ data }) => (
   <BlogStyled>
     <Helmet title="Blog - Roberto Vázquez González Site" />
@@ -90,7 +90,7 @@ const BlogPage = ({ data }) => (
       Showing {data.allMarkdownRemark.edges.length} of {data.allMarkdownRemark.totalCount}
     </div>
   </BlogStyled>
-);
+)
 export const pageQuery = graphql`
   query IndexQuery {
     allMarkdownRemark(
@@ -118,16 +118,16 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`
 
-export default BlogPage;
+export default BlogPage
 /**
  * Prop types
  */
 BlogPage.propTypes = {
   data: PropTypes.object,
-};
+}
 
 BlogPage.defaultProps = {
   data: {},
-};
+}
