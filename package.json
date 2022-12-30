@@ -9,7 +9,7 @@
     "@fortawesome/react-fontawesome": "0.0.17",
     "cookieconsent": "^3.0.6",
     "disqus-react": "^1.0.5",
-    "gatsby": "^1.9.219",
+    "gatsby": "^5.3.3",
     "gatsby-image": "^1.0.39",
     "gatsby-link": "^1.6.39",
     "gatsby-plugin-favicon": "^2.1.1",
