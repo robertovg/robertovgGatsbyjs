@@ -6,6 +6,39 @@ The code it-self is quite simple, just out of the box configuration from Gatsby,
 
 Implemented with Gatsby using `gatsby-starter-default`, everything from there was coded from the scratch.
 
+## Local setup
+
+This repo now uses `npm` as the package manager.
+
+### Requirements
+
+- Node.js 22 or newer
+- `npm`
+
+### Install
+
+```bash
+npm install
+```
+
+### Run locally
+
+```bash
+npm run develop
+```
+
+or
+
+```bash
+npm start
+```
+
+### Build for production
+
+```bash
+npm run build
+```
+
 ## Handcrafted solutions 👨‍💻
 
 ### CSS grid Menu with Fullscreen overlay menu (pure css) for mobile
