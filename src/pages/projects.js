@@ -86,8 +86,13 @@ const ProjectsPage = () => (
               Gatsby
             </a>{' '}
             and deployed on{' '}
-            <a target="_blank" rel="noopener noreferrer" href="https://www.netlify.com">
-              Netlify
+            <s>
+              <a target="_blank" rel="noopener noreferrer" href="https://www.netlify.com">
+                Netlify
+              </a>
+            </s>{' '}
+            <a target="_blank" rel="noopener noreferrer" href="https://pages.cloudflare.com">
+              Cloudflare Pages
             </a>{' '}
             everything here has been crafted from scratch. I have
             <Link to="/blog/moving-this-site-to-gatsby"> a blog post </Link>
