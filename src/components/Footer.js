@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
@@ -7,9 +7,7 @@ import {
   faLinkedinIn,
   faInstagram,
   faMedium,
-  faTwitter,
 } from '@fortawesome/fontawesome-free-brands'
-import CookieConsent from 'react-cookie-consent'
 import { colors, pageLinks } from './constants'
 import { media } from './Breakpoints'
 
@@ -27,6 +25,7 @@ const FooterWrapperStyled = styled.div`
     background-color: ${colors.contentWrappersBackground};
   }
 `
+
 const SocialWrapperStyled = styled.div`
   display: grid;
   grid-auto-flow: column;
@@ -40,26 +39,54 @@ const SocialWrapperStyled = styled.div`
     grid-gap: unset;
   `};
 `
+
 const SocialLinkStyled = styled.a`
+  min-width: 44px;
+  min-height: 44px;
   padding: 5px 8px;
   border-radius: 3px;
-  font-size: 2rem;
+  font-size: 1.9rem;
   transition: transform 200ms ease;
-  max-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   &:hover {
     transform: scale(1.1);
     color: ${colors.lightTextColor};
     background-color: ${props => props.color};
   }
-  ${media.phone`
-    font-size: 1.5rem;
-  `};
 `
-const CookiesContent = styled.div`
-  margin-right: 15px;
-  a {
-    color: ${colors.lightTextColor};
-  }
+
+const CookieBannerStyled = styled.div`
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  background: ${pageLinks[0].gradientTop};
+  color: ${colors.lightTextColor};
+`
+
+const CookieBannerText = styled.p`
+  margin: 0;
+`
+
+const CookieBannerButton = styled.button`
+  border: 0;
+  border-radius: 3px;
+  padding: 0.35rem 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: ${pageLinks[0].gradientBottom};
+  color: ${colors.darkTextColor};
+`
+
+const CookieBannerLink = styled.a`
+  color: ${colors.lightTextColor};
 `
 
 SocialLinkStyled.propsTypes = {
@@ -69,6 +96,7 @@ SocialLinkStyled.propsTypes = {
 SocialLinkStyled.defaultProps = {
   color: '#fff',
 }
+
 const Footer = () => {
   const socialLinks = [
     {
@@ -95,13 +123,20 @@ const Footer = () => {
       color: '#000000',
       icon: faMedium,
     },
-    {
-      label: 'Twitter',
-      link: 'https://twitter.com/robertovg24',
-      color: '#1DA1F2',
-      icon: faTwitter,
-    },
   ]
+  const [cookieAccepted, setCookieAccepted] = useState(true)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const stored = window.localStorage.getItem('robertovg-cookie-consent')
+    setCookieAccepted(stored === 'accepted')
+  }, [])
+
+  function acceptCookies() {
+    window.localStorage.setItem('robertovg-cookie-consent', 'accepted')
+    setCookieAccepted(true)
+  }
 
   return (
     <FooterWrapperStyled>
@@ -114,39 +149,26 @@ const Footer = () => {
             rel="noopener noreferrer"
             color={socialLink.color}
             href={socialLink.link}
+            aria-label={socialLink.label}
+            title={socialLink.label}
           >
             <FontAwesomeIcon icon={socialLink.icon} />
           </SocialLinkStyled>
         ))}
       </SocialWrapperStyled>
-      <CookieConsent
-        location="bottom"
-        buttonText="Got it!"
-        cookieName="robertovg"
-        style={{
-          background: pageLinks[0].gradientTop,
-          display: 'grid',
-          gridAutoFlow: 'column',
-          justifyContent: 'center',
-        }}
-        buttonStyle={{
-          backgroundColor: pageLinks[0].gradientBottom,
-          fontSize: 'large',
-          cursor: 'pointer',
-          padding: '0.3rem 1rem',
-          borderRadius: '3px',
-          right: 'unset',
-          position: 'unset',
-          marginRight: '1rem',
-        }}
-      >
-        <CookiesContent>
-          This website uses cookies to ensure you get the best experience on our website.{' '}
-          <a target="_blank" rel="noopener noreferrer" href="http://cookiesandyou.com/">
-            Learn more
-          </a>{' '}
-        </CookiesContent>
-      </CookieConsent>
+      {!cookieAccepted ? (
+        <CookieBannerStyled role="status" aria-live="polite">
+          <CookieBannerText>
+            This website uses cookies to ensure you get the best experience on our website.{' '}
+            <CookieBannerLink target="_blank" rel="noopener noreferrer" href="http://cookiesandyou.com/">
+              Learn more
+            </CookieBannerLink>
+          </CookieBannerText>
+          <CookieBannerButton type="button" onClick={acceptCookies}>
+            Got it!
+          </CookieBannerButton>
+        </CookieBannerStyled>
+      ) : null}
     </FooterWrapperStyled>
   )
 }

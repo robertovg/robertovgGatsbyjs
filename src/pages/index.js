@@ -26,6 +26,13 @@ const IndexStyled = styled.section`
     grid-area: 4 / 1 / -1 /-1;
     z-index: 1;
   }
+
+  .index__news a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0.2rem 0;
+  }
 `
 
 const IndexPage = ({ data }) => (
