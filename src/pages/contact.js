@@ -84,7 +84,7 @@ const ContactPage = () => {
     }
   }, [siteKey])
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault()
 
     if (siteKey && !tokenRef.current) {
@@ -95,44 +95,45 @@ const ContactPage = () => {
     setStatus('loading')
     setErrorMsg('')
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: fields.name,
-          email: fields.email,
-          message: fields.message,
-          turnstile_token: tokenRef.current || 'dev',
-        }),
-      })
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: fields.name,
+        email: fields.email,
+        message: fields.message,
+        turnstile_token: tokenRef.current || 'dev',
+      }),
+    })
+      .then((response) =>
+        response.json().catch(() => ({})).then((data) => ({ response, data })),
+      )
+      .then(({ response, data }) => {
+        if (!response.ok) {
+          throw new Error(data.error || 'There was a problem sending the message.')
+        }
 
-      const data = await response.json().catch(() => ({}))
-
-      if (!response.ok) {
-        throw new Error(data.error || 'There was a problem sending the message.')
-      }
-
-      setFields(initialFields)
-      setStatus('idle')
-      tokenRef.current = ''
-
-      if (widgetIdRef.current && typeof window.turnstile !== 'undefined') {
-        window.turnstile.reset(widgetIdRef.current)
-      }
-
-      window.location.assign('/thanks/')
-    } catch (error) {
-      setStatus('error')
-      setErrorMsg(error instanceof Error ? error.message : 'Unexpected error')
-
-      if (widgetIdRef.current && typeof window.turnstile !== 'undefined') {
-        window.turnstile.reset(widgetIdRef.current)
+        setFields(initialFields)
+        setStatus('idle')
         tokenRef.current = ''
-      }
-    }
+
+        if (widgetIdRef.current && typeof window.turnstile !== 'undefined') {
+          window.turnstile.reset(widgetIdRef.current)
+        }
+
+        window.location.assign('/thanks/')
+      })
+      .catch((error) => {
+        setStatus('error')
+        setErrorMsg(error instanceof Error ? error.message : 'Unexpected error')
+
+        if (widgetIdRef.current && typeof window.turnstile !== 'undefined') {
+          window.turnstile.reset(widgetIdRef.current)
+          tokenRef.current = ''
+        }
+      })
   }
 
   return (
@@ -161,12 +162,13 @@ const ContactPage = () => {
           autoComplete="name"
           placeholder="What's your name?"
           value={fields.name}
-          onChange={(event) =>
+          onChange={(event) => {
+            const { value } = event.target
             setFields((current) => ({
               ...current,
-              name: event.target.value,
+              name: value,
             }))
-          }
+          }}
         />
 
         <label htmlFor="email">Email</label>
@@ -177,12 +179,13 @@ const ContactPage = () => {
           autoComplete="email"
           placeholder="And your email?"
           value={fields.email}
-          onChange={(event) =>
+          onChange={(event) => {
+            const { value } = event.target
             setFields((current) => ({
               ...current,
-              email: event.target.value,
+              email: value,
             }))
-          }
+          }}
           required
         />
 
@@ -194,12 +197,13 @@ const ContactPage = () => {
           rows="10"
           placeholder="What do you want to say?"
           value={fields.message}
-          onChange={(event) =>
+          onChange={(event) => {
+            const { value } = event.target
             setFields((current) => ({
               ...current,
-              message: event.target.value,
+              message: value,
             }))
-          }
+          }}
           required
         />
 
