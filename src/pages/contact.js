@@ -46,6 +46,25 @@ const ContactPage = () => {
   const tokenRef = useRef('')
 
   useEffect(() => {
+    if (!siteKey) return undefined
+
+    const scriptSrc = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
+    const existingScript = document.querySelector(`script[src="${scriptSrc}"]`)
+
+    if (existingScript) {
+      return undefined
+    }
+
+    const script = document.createElement('script')
+    script.src = scriptSrc
+    script.async = true
+    script.defer = true
+    document.head.appendChild(script)
+
+    return undefined
+  }, [siteKey])
+
+  useEffect(() => {
     if (!siteKey || !turnstileRef.current) return undefined
 
     let cancelled = false
@@ -140,13 +159,6 @@ const ContactPage = () => {
     <ContactStyled>
       <Helmet>
         <title>Contact - Roberto Vázquez González Site</title>
-        {siteKey ? (
-          <script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-            async
-            defer
-          />
-        ) : null}
       </Helmet>
       <h2 className="general__pageTitle">Contact Me</h2>
       <article>
