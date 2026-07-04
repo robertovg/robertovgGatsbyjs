@@ -1,6 +1,6 @@
-name = "robertovg-gatsbyjs-website"
-pages_build_output_dir = "./public"
-compatibility_date = "2025-01-01"
+name="robertovggatsbyjs"
+pages_build_output_dir="./public"
+compatibility_date="2025-01-01"
 
 [vars]
 # Set these in the Cloudflare dashboard or via wrangler secrets.
@@ -11,5 +11,5 @@ compatibility_date = "2025-01-01"
 # CONTACT_TO_EMAIL = "you@example.com"
 FROM_EMAIL="Roberto <contact@robertovg.com>"
 CONTACT_TO_EMAIL="contact@robertovg.com"
-GATSBY_TURNSTILE_SITE_KEY=0x4AAAAAADvgaZ8PDLx8YHin
+GATSBY_TURNSTILE_SITE_KEY="0x4AAAAAADvgaZ8PDLx8YHin"
 
