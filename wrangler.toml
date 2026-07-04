@@ -1,0 +1,12 @@
+name = "robertovg-gatsbyjs-website"
+pages_build_output_dir = "./public"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Set these in the Cloudflare dashboard or via wrangler secrets.
+# GATSBY_TURNSTILE_SITE_KEY = "your_turnstile_site_key"
+# TURNSTILE_SECRET_KEY = "your_turnstile_secret_key"
+# RESEND_API_KEY = "re_your_resend_api_key"
+# FROM_EMAIL = "Website <noreply@example.com>"
+# CONTACT_TO_EMAIL = "you@example.com"
+

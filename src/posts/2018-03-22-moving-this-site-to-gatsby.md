@@ -1,11 +1,12 @@
 ---
-title: "Moving This Site To Gatsby"
-path: "/blog/moving-this-site-to-gatsby"
+title: 'Moving This Site To Gatsby'
+path: '/blog/moving-this-site-to-gatsby'
 category: hosting
-tags: [gatsby, netlify, craftsmanship, github, dscm, jekyll, flat-file-cms, git, javaScript]
+tags:
+  [gatsby, netlify, cloudflare, craftsmanship, github, dscm, jekyll, flat-file-cms, git, javaScript]
 published: true
-date: "2018-03-22"
-featuredImage: "./images/gatsby-logo.png"
+date: '2018-03-22'
+featuredImage: './images/gatsby-logo.png'
 ---
 
 Has been a long time without updates on my site, and it wasn't because I had nothing to share, but maybe because I was more focused on doing than on writing about what I was doing.
@@ -28,7 +29,7 @@ I really was so excited, it means I have all the used and loved tools I choose t
 
 During the process is true you don't have so many fancy themes like with more matures solutions ([Wordpress](https://wordpress.org/) is the king when we talk about more professionals and better-looking themes IMO), and also you have to code almost any special solution by your self, but well I do enjoy coding, so the effort is well paid back.
 
-Then later, of course, I arrived at the point of having to deploy the site and you find [Netlify](https://www.netlify.com), well then is when you are really not able to believe it, so good. I promise the best way to explain it, is just to try it.
+Then later, of course, I arrived at the point of having to deploy the site and you find ~~[Netlify](https://www.netlify.com)~`[Cloudflare Pages](https://pages.cloudflare.com), well then is when you are really not able to believe it, so good. I promise the best way to explain it, is just to try it.
 
 I'll update if I have to change my page engine again, but honestly, I'm keen to try out the possibilities we could get with this stack, and this blog is just the beginning.
 

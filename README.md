@@ -39,6 +39,22 @@ npm start
 npm run build
 ```
 
+## Deployment
+
+The site is intended to run on **Cloudflare Pages**.
+
+The repository now includes a Cloudflare Pages Function for the contact form at:
+
+- `/api/contact`
+
+That function:
+
+- verifies Cloudflare Turnstile tokens
+- sends the message through Resend
+- keeps the browser-side form simple and static
+
+The root `wrangler.toml` is included as a deployment reference for Pages builds and environment variables.
+
 ## Handcrafted solutions 👨‍💻
 
 ### CSS grid Menu with Fullscreen overlay menu (pure css) for mobile
@@ -63,7 +79,26 @@ I found this gatsby-plugin-favicon and is great.
 
 ### Form
 
-Just a simple html form connected with Gatsby form engine. No extra-validations than the out of the box included with html.
+The contact form now uses a Cloudflare Pages Function instead of Netlify forms.
+
+It includes:
+
+- Cloudflare Turnstile protection
+- server-side validation for email and message length
+- Resend email delivery
+- a post-submit redirect to the existing `/thanks/` page
+
+Required environment variables for Cloudflare:
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `GATSBY_TURNSTILE_SITE_KEY` | Yes in production | Public Turnstile site key used by the browser form |
+| `TURNSTILE_SECRET_KEY` | Yes in production | Turnstile secret key used by `/api/contact` |
+| `RESEND_API_KEY` | Yes in production | Resend API key used to send the contact email |
+| `FROM_EMAIL` | Yes in production | Sender address used by Resend, for example `Website <noreply@yourdomain.com>` |
+| `CONTACT_TO_EMAIL` | Yes in production | Destination address for contact form messages |
+
+For local development you can set `TURNSTILE_SECRET_KEY=dev` to skip Turnstile verification.
 
 ### Fonts
 
