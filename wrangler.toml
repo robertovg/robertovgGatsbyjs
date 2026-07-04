@@ -9,4 +9,7 @@ compatibility_date = "2025-01-01"
 # RESEND_API_KEY = "re_your_resend_api_key"
 # FROM_EMAIL = "Website <noreply@example.com>"
 # CONTACT_TO_EMAIL = "you@example.com"
+FROM_EMAIL="Roberto <contact@robertovg.com>"
+CONTACT_TO_EMAIL="contact@robertovg.com"
+GATSBY_TURNSTILE_SITE_KEY=0x4AAAAAADvgaZ8PDLx8YHin
 
