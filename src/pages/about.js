@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import Helmet from 'react-helmet'
@@ -36,43 +35,33 @@ const AboutPage = ({ data }) => (
       <Img sizes={data.background.sizes} />
     </div>
     <article>
-      My name is Roberto Vázquez González. I'm a Spanish freelance programmer based in Conil de la
-      Frontera (Spain). I've been successfully working remotely 5+ years. I have more than ten
-      years' extensive experience as a full stack web developer. For the past four years, I've been
-      the lead frontend developer for a London-based startup called{' '}
-      <a target="_blank" rel="noopener noreferrer" href="https://precursive.com/">
-        Precursive
-      </a>
-      . If you are interested to get more details about my CV, feel free to{' '}
-      <Link to="/contact/">contact me</Link> or check my profile on{' '}
-      <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/robertovg">
-        Linkedin
-      </a>
-      .
+      I'm Roberto Vázquez González, a Software Engineer from southern Spain with more than
+      <mark> 15 years of professional experience</mark> building web applications, platforms and
+      developer tooling.
     </article>
     <article>
-      I practice Ashtanga Yoga 3+ times per week, usually before working at 7:30 am, Ashtanga really
-      changed the way I overcome the challenges and it makes my day, even before having properly
-      started it.
+      I'm a <mark>full-stack engineer</mark> with a particular passion for
+      <mark> frontend and UI/UX</mark>. I enjoy working across every part of a system, from
+      infrastructure, DevOps and backend services to the user interface, but I naturally gravitate
+      towards creating thoughtful user experiences, scalable frontend architectures and developer
+      tooling.
     </article>
     <article>
-      Another passion of mine is playing the guitar. I started to play this instrument in the
-      conservatoire when I was ten years old, and continued to do so in a few rock bands until I
-      began my university studies. Now, ten years later, I play in a jazz/funk band and I'm
-      delighted to be back playing in a group.
+      I currently work as a Senior Engineer at <mark>EverQuote</mark>, where I'm a key contributor
+      across multiple products and engineering initiatives. I ship features, build new products,
+      improve existing platforms and establish reusable engineering best practices across teams.
+      While my expertise lies in frontend architecture and developer experience, I contribute across
+      the stack wherever I can create the most value.
     </article>
     <article>
-      The province of Cadiz is renowned for its fantastic surf beaches, so last year I decided to
-      give surfing a go. I try to get in the water every weekend and enjoy the progress I seem to be
-      making.
+      I've been working <mark>remotely full-time since January 2014</mark>, an experience that has
+      taught me the importance of communication, ownership and building software that scales not
+      only technically, but also across distributed teams.
     </article>
+
     <article>
-      Music, surfing, and ashtanga yoga are the basic foundations of my lifestyle. I feel happier
-      than ever and this has had a positive impact on my work, as I feel like I've managed to find
-      the right life work balance.
-    </article>
-    <article>
-      If you are interested in the my setup, visit my <a href="/uses/"> uses</a> page.
+      Outside of work, you'll usually find me spending time with my family, surfing, playing guitar
+      or building side projects that let me explore new ideas and technologies.
     </article>
   </AboutStyled>
 )

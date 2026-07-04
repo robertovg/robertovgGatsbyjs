@@ -39,34 +39,40 @@ const IndexPage = ({ data }) => (
   <IndexStyled>
     <Helmet title="Home - Roberto Vázquez González Site" />
     <h2 className="general__pageTitle">Home</h2>
-    <article className="index__title">My name is Roberto</article>
+    <article className="index__title">My name is Roberto Vázquez González.</article>
+
     <article className="index__subtitle">
-      I am an organized and enthusiastic <mark>Javascript Engineer</mark> with
-      <mark> 15+ years experience</mark> and a passion for <mark>development</mark>.
+      I´m an organized and enthusiastic <mark>Full-stack Software Engineer</mark> with
+      <mark> 15+ years of experience</mark>.
     </article>
+
     <article className="index__tagline1">
-      Currently I am focused on the <mark>frontend, UX, and FP</mark>.
+      I work across the entire stack, from infrastructure and DevOps to backend,{' '}
+      <mark>frontend and UI/UX</mark>, where my passion naturally lies.
     </article>
     <article className="index__tagline2">
       <mark>
         <span role="img" aria-label="love">
           💛
+        </span>{' '}
+        ts,
+        <span role="img" aria-label="parenting">
+          {' '}
+          👨‍🍼
         </span>
-        js (^es6),
         <span role="img" aria-label="surf">
           🏄‍
         </span>
-        <span role="img" aria-label="ashtanga yoga">
+        <span role="img" aria-label="meditation">
           🧘‍
         </span>
-        <span role="img" aria-label="music & playing guitar">
+        <span role="img" aria-label="guitar">
           🎸
         </span>
-        .
       </mark>
     </article>
     <article className="index__news">
-      <h3>Recently I wrote about:</h3>
+      <h3>This is where I share my projects, thoughts and the tools I enjoy using.:</h3>
       <ul>
         {data.allMarkdownRemark.edges.map(({ node: post }) => (
           <li key={post.id}>
