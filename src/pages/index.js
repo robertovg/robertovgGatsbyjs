@@ -72,7 +72,7 @@ const IndexPage = ({ data }) => (
       </mark>
     </article>
     <article className="index__news">
-      <h3>This is where I share my projects, thoughts and the tools I enjoy using.:</h3>
+      <h3>This is where I share my projects, thoughts and the tools I enjoy using:</h3>
       <ul>
         {data.allMarkdownRemark.edges.map(({ node: post }) => (
           <li key={post.id}>
