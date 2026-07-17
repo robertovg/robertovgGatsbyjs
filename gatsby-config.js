@@ -125,6 +125,7 @@ module.exports = {
                     date
                     path
                     title
+                    tags
                   }
                 }
               }
@@ -134,4 +135,4 @@ module.exports = {
       },
     },
   ],
-};
+}
