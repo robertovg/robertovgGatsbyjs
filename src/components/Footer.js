@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import {
-  faGithub,
-  faLinkedinIn,
-  faInstagram,
-  faMedium,
-} from '@fortawesome/fontawesome-free-brands'
+import { faGithub, faLinkedinIn, faInstagram, faMedium } from '@fortawesome/fontawesome-free-brands'
 import { colors, pageLinks } from './constants'
 import { media } from './Breakpoints'
+
+// DEV.to brand icon (not available in this version of fontawesome-free-brands)
+const faDev = {
+  prefix: 'fab',
+  iconName: 'dev',
+  icon: [
+    448,
+    512,
+    [],
+    'f6cc',
+    'M120.12 208.29c-3.88-2.9-7.77-4.35-11.65-4.35H91.03v104.47h17.44c3.88 0 7.77-1.45 11.65-4.35 3.88-2.9 5.82-7.25 5.82-13.06v-69.65c-.01-5.8-1.96-10.16-5.82-13.06zM404.1 32H43.9C19.7 32 .06 51.59 0 75.79v360.42C.06 460.41 19.7 480.01 43.9 480h360.2c24.21.01 43.83-19.59 43.9-43.79V75.79C447.93 51.59 428.31 32 404.1 32zM154.2 291.19c0 18.81-11.61 47.31-48.36 47.25h-46.4V172.98h47.38c35.44 0 47.36 28.46 47.37 47.28l.01 70.93zm100.68-88.66H201.6v38.42h32.57v29.57H201.6v38.41h53.29v29.57h-62.18c-11.16.29-20.44-8.53-20.72-19.69V193.7c-.27-11.15 8.56-20.41 19.71-20.69h63.19l-.01 29.52zm103.64 115.29c-13.2 30.75-36.85 24.63-47.44 0l-38.53-144.8h32.57l29.71 113.72 29.79-113.72h32.57l-38.66 144.8z',
+  ],
+}
 
 const FooterWrapperStyled = styled.div`
   padding: 5px;
@@ -123,6 +131,12 @@ const Footer = () => {
       color: '#000000',
       icon: faMedium,
     },
+    {
+      label: 'DEV',
+      link: 'https://dev.to/robertovg/',
+      color: '#000000',
+      icon: faDev,
+    },
   ]
   const [cookieAccepted, setCookieAccepted] = useState(true)
 
@@ -160,7 +174,11 @@ const Footer = () => {
         <CookieBannerStyled role="status" aria-live="polite">
           <CookieBannerText>
             This website uses cookies to ensure you get the best experience on our website.{' '}
-            <CookieBannerLink target="_blank" rel="noopener noreferrer" href="http://cookiesandyou.com/">
+            <CookieBannerLink
+              target="_blank"
+              rel="noopener noreferrer"
+              href="http://cookiesandyou.com/"
+            >
               Learn more
             </CookieBannerLink>
           </CookieBannerText>
