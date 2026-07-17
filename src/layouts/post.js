@@ -4,7 +4,8 @@ import Img from 'gatsby-image'
 import Helmet from 'react-helmet'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
-import { DiscussionEmbed } from 'disqus-react'
+// Disqus comments temporarily disabled (no comments yet)
+// import { DiscussionEmbed } from 'disqus-react'
 
 require('prismjs/themes/prism.css')
 
@@ -60,6 +61,7 @@ export default function Template({ data }) {
       <time>{post.frontmatter.date}</time>
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
       <Link to="/blog">Go back to the blog section.</Link>
+      {/* Disqus comments temporarily disabled (no comments yet)
       <DiscussionEmbed
         shortname="robertovg-com"
         config={{
@@ -68,6 +70,7 @@ export default function Template({ data }) {
           title: post.frontmatter.title,
         }}
       />
+      */}
     </PostStyled>
   )
 }

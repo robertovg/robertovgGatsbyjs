@@ -90,13 +90,13 @@ It includes:
 
 Required environment variables for Cloudflare:
 
-| Variable | Required | Description |
-| --- | --- | --- |
-| `GATSBY_TURNSTILE_SITE_KEY` | Yes in production | Public Turnstile site key used by the browser form |
-| `TURNSTILE_SECRET_KEY` | Yes in production | Turnstile secret key used by `/api/contact` |
-| `RESEND_API_KEY` | Yes in production | Resend API key used to send the contact email |
-| `FROM_EMAIL` | Yes in production | Sender address used by Resend, for example `Website <noreply@yourdomain.com>` |
-| `CONTACT_TO_EMAIL` | Yes in production | Destination address for contact form messages |
+| Variable                    | Required          | Description                                                                   |
+| --------------------------- | ----------------- | ----------------------------------------------------------------------------- |
+| `GATSBY_TURNSTILE_SITE_KEY` | Yes in production | Public Turnstile site key used by the browser form                            |
+| `TURNSTILE_SECRET_KEY`      | Yes in production | Turnstile secret key used by `/api/contact`                                   |
+| `RESEND_API_KEY`            | Yes in production | Resend API key used to send the contact email                                 |
+| `FROM_EMAIL`                | Yes in production | Sender address used by Resend, for example `Website <noreply@yourdomain.com>` |
+| `CONTACT_TO_EMAIL`          | Yes in production | Destination address for contact form messages                                 |
 
 For local development you can set `TURNSTILE_SECRET_KEY=dev` to skip Turnstile verification.
 
@@ -111,6 +111,8 @@ I found another magic plugin to avoid this problem and additionally process exte
 ### Comments
 
 Just [discuss](https://disqus.com) the official [disqus-react](https://github.com/disqus/disqus-react) component for the blog posts pages.
+
+ℹ️ Have disconnected the comments for now.
 
 ### Sitemap
 
