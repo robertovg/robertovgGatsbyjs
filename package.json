@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "gatsby build",
-    "develop": "HOST=127.0.0.1 gatsby develop",
+    "dev": "HOST=127.0.0.1 gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
     "postinstall": "node scripts/patch-gatsby-plugin-sharp.js && node scripts/patch-gatsby-plugin-feed-generator.js",
     "start": "HOST=127.0.0.1 gatsby develop",
