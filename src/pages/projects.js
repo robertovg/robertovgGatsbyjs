@@ -38,6 +38,17 @@ const ProjectsPage = () => (
     </summary>
     <article>
       <h3>
+        <Link to="/projects/verifiable-bookmarklets/">Verifiable Bookmarklets</Link>
+      </h3>
+      <time>July 2026</time>
+      <div>
+        A lightweight static SPA idea for sharing JavaScript bookmarklets with provenance. The goal
+        is not to make bookmarklets safe, but to let anyone verify that a bookmarklet exactly
+        matches its published source code.
+      </div>
+    </article>
+    <article>
+      <h3>
         <a target="_blank" rel="noopener noreferrer" href="https://corkerspace.com/">
           CorkerSpace
         </a>
