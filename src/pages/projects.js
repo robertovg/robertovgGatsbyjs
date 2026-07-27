@@ -216,7 +216,7 @@ const ProjectsPage = () => (
           GitHub
         </a>
         . The backend consists of a Node.js + Express.js server, running in OpenShift, with
-        mongoose.js to connect to a MongoLab instance. The codebase for this can be found also
+        mongoose.js to connect to a MongoLab instance. The codebase for this can be found also{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"

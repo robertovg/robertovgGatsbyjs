@@ -18,10 +18,15 @@ const PostStyled = styled.section`
     width: 100%;
     max-height: 70vh;
   }
+  .gatsby-highlight {
+    max-width: calc(100vw - 2rem);
+    overflow: auto;
+    margin: 1rem auto;
+  }
   .gatsby-highlight pre {
     margin: 0 auto;
     width: 45em;
-    max-width: calc(100vw - 6em);
+    max-width: 100%;
     max-height: 30rem;
     overflow: auto;
   }
