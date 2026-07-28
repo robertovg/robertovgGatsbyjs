@@ -10,6 +10,8 @@ import styled from 'styled-components'
 require('prismjs/themes/prism.css')
 
 const PostStyled = styled.section`
+  overflow-wrap: anywhere;
+  word-break: break-word;
   h1 {
     font-size: 1.5rem;
   }
@@ -19,7 +21,7 @@ const PostStyled = styled.section`
     max-height: 70vh;
   }
   .gatsby-highlight {
-    max-width: calc(100vw - 2rem);
+    max-width: 100%;
     overflow: auto;
     margin: 1rem auto;
   }

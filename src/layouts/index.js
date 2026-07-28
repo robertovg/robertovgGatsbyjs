@@ -32,6 +32,7 @@ const PageStyled = styled.main`
   margin: 0 auto;
   display: grid;
   grid-template-rows: 50px 1fr 100px;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'header'
     'body'
@@ -62,6 +63,7 @@ const PageStyled = styled.main`
 const BodyStyled = styled.div`
   grid-area: body;
   padding: var(--padding-base);
+  min-width: 0;
 `
 const parentContainer = 'content_container'
 const TemplateWrapper = ({ children, location }) => (

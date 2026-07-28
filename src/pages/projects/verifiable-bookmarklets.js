@@ -1,7 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
-import Link from 'gatsby-link'
 import { colors } from '../../components/constants'
 import { media } from '../../components/Breakpoints'
 
@@ -31,11 +30,6 @@ const PageStyled = styled.article`
     font: inherit;
   }
 
-  .backLink {
-    display: inline-block;
-    margin-bottom: 1rem;
-  }
-
   .hero {
     margin-bottom: 1.25rem;
   }
@@ -60,6 +54,12 @@ const PageStyled = styled.article`
     margin: 0.65rem 0 0;
     font-size: 1.05rem;
     line-height: 1.45;
+  }
+
+  .hero .heroNote {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    opacity: 0.85;
   }
 
   .tool {
@@ -155,7 +155,8 @@ const PageStyled = styled.article`
 
   .segmented button {
     min-width: 76px;
-    height: 38px;
+    min-height: 38px;
+    height: 100%;
     border: 0;
     background: #fff;
     cursor: pointer;
@@ -552,16 +553,22 @@ function validateSourceUrl(value) {
     const path = parsed.pathname.split('/').filter(Boolean)
 
     if (parsed.hostname === 'gist.github.com') {
-      throw new Error(
-        `This is a Gist page URL, not a source file. Paste the raw file URL instead:\nhttps://gist.githubusercontent.com/${path[0] ||
-          '<user>'}/${path[1] || '<gist>'}/raw/${path[2] || '<revision>'}/<filename.js>`,
-      )
+      if (!path[0] || !path[1]) {
+        throw new Error('This is a Gist URL but it is missing the user and gist id.')
+      }
+
+      // A Gist page URL is not fetchable, but the matching raw URL is: GitHub
+      // serves the raw file (the first one when a Gist has several) with
+      // permissive CORS headers. Convert it so the paste just works.
+      const revision = path[2] && path[2] !== 'raw' ? `/${path[2]}` : ''
+
+      return `https://gist.githubusercontent.com/${path[0]}/${path[1]}/raw${revision}`
     }
 
     if (parsed.hostname === 'gist.githubusercontent.com') {
-      if (path.length < 5 || path[2] !== 'raw' || !path[3] || !path.slice(4).join('/')) {
+      if (path[2] !== 'raw' || !path[3]) {
         throw new Error(
-          'Gist raw URLs must include the revision and filename: https://gist.githubusercontent.com/<user>/<gist>/raw/<revision>/<filename>',
+          'Gist raw URLs must include the revision: https://gist.githubusercontent.com/<user>/<gist>/raw/<revision>[/<filename>]',
         )
       }
     }
@@ -574,6 +581,58 @@ function validateSourceUrl(value) {
   }
 
   return sourceUrl
+}
+
+const HTML_SOURCE_START = /^\s*(<!doctype html|<html[\s>]|<\?xml)/i
+
+// Checks that a fetched response actually looks like runnable JavaScript.
+// It never executes the code: `new Function` only compiles it, so a bad or
+// hostile source is rejected before it is turned into a bookmarklet.
+function assertRunnableSource(source, contentType) {
+  const trimmed = (source || '').trim()
+  const mediaType = (contentType || '')
+    .split(';')[0]
+    .trim()
+    .toLowerCase()
+
+  if (!trimmed) {
+    throw new Error('The source URL returned an empty response. There is no JavaScript to use.')
+  }
+
+  const looksLikeHtml = mediaType === 'text/html' || HTML_SOURCE_START.test(trimmed)
+
+  if (looksLikeHtml) {
+    throw new Error(
+      'The URL returned an HTML page, not JavaScript source. Use the raw file URL (for Gists, the gist.githubusercontent.com/.../raw/... link).',
+    )
+  }
+
+  if (
+    mediaType === 'text/css' ||
+    mediaType === 'application/json' ||
+    mediaType === 'application/xml' ||
+    mediaType === 'text/xml' ||
+    mediaType === 'application/pdf' ||
+    /^(image|audio|video)\//.test(mediaType)
+  ) {
+    throw new Error(`The URL returned ${mediaType}, not JavaScript source.`)
+  }
+
+  try {
+    // Parse-only check: compiles the source as a function body without running it.
+    // eslint-disable-next-line no-new, no-new-func
+    new Function(trimmed)
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      throw new Error(
+        `The fetched source is not valid JavaScript and cannot be run: ${error.message}`,
+      )
+    }
+    // Non-syntax errors (for example a CSP that blocks eval) mean we could not
+    // verify the syntax here; let the source through rather than false-flagging it.
+  }
+
+  return trimmed
 }
 
 function inferBookmarkletName(sourceUrl) {
@@ -598,12 +657,51 @@ function inferBookmarkletName(sourceUrl) {
   }
 }
 
+// A filename-less Gist raw URL ends in the revision hash (or "raw"), which is
+// not a useful name. Detect that so we can fall back to reading the source.
+function looksLikeGistRevision(name) {
+  return !name || name === 'raw' || /^[0-9a-f]{7,40}$/i.test(name)
+}
+
+// Best-effort readable name pulled from a leading comment / heading in the
+// source, for example "# Full Site to Markdown Extractor" -> that text.
+function inferNameFromSource(source) {
+  if (!source) {
+    return ''
+  }
+
+  const lines = source.split('\n')
+
+  for (let i = 0; i < lines.length && i < 25; i += 1) {
+    const cleaned = lines[i]
+      .replace(/^\s*\/\*+/, '')
+      .replace(/\*+\/\s*$/, '')
+      .replace(/^\s*\*+/, '')
+      .replace(/^\s*\/\/+/, '')
+      .replace(/^\s*#+\s*/, '')
+      .trim()
+
+    if (!cleaned || cleaned.length > 80) {
+      continue
+    }
+
+    // Skip lines that look like actual code rather than a title.
+    if (/[{};]|=>|\bfunction\b/.test(cleaned)) {
+      continue
+    }
+
+    return cleaned
+  }
+
+  return ''
+}
+
 function getGistPageUrl(sourceUrl) {
   try {
     const parsed = new URL(sourceUrl)
     const path = parsed.pathname.split('/').filter(Boolean)
 
-    if (parsed.hostname !== 'gist.githubusercontent.com' || path.length < 5 || path[2] !== 'raw') {
+    if (parsed.hostname !== 'gist.githubusercontent.com' || path.length < 4 || path[2] !== 'raw') {
       return ''
     }
 
@@ -669,7 +767,7 @@ class VerifiableBookmarkletsPage extends React.Component {
         sourceLocked: true,
         actionMode: 'generate',
       },
-      this.generate
+      this.generate,
     )
   }
 
@@ -687,23 +785,33 @@ class VerifiableBookmarkletsPage extends React.Component {
       return Promise.reject(new Error('Add a source URL first.'))
     }
 
-    const fetchUrl = validateSourceUrl(sourceUrl)
+    let fetchUrl
+
+    try {
+      fetchUrl = validateSourceUrl(sourceUrl)
+    } catch (error) {
+      return Promise.reject(error)
+    }
 
     return fetch(fetchUrl)
       .then(response => {
         if (!response.ok) {
-          throw new Error(`Could not fetch source URL. HTTP ${response.status}.`)
+          throw new Error(
+            `Could not fetch source URL. HTTP ${response.status} ${response.statusText}.`.trim(),
+          )
         }
 
+        const contentType = response.headers.get('content-type') || ''
+
         return response.text().then(source => ({
-          source,
+          source: assertRunnableSource(source, contentType),
           src: fetchUrl,
         }))
       })
       .catch(error => {
         if (error.name === 'TypeError') {
           throw new Error(
-            'The source host blocked browser access. Use its raw URL or paste the source code.',
+            'Could not reach the source URL. The host may be offline or it blocked browser access (CORS). Use its raw URL or paste the source code instead.',
           )
         }
 
@@ -761,19 +869,33 @@ class VerifiableBookmarkletsPage extends React.Component {
   }
 
   generate = () => {
-    this.setState({ loading: true, status: '', statusType: '' })
+    this.setState({
+      loading: true,
+      status: '',
+      statusType: '',
+      generatedBookmarklet: '',
+      generatedSha: '',
+      generatedMetadata: '',
+      bookmarklet: '',
+      inspection: emptyInspection,
+    })
 
-    this.getActiveSource()
+    Promise.resolve()
+      .then(this.getActiveSource)
       .then(({ source, src }) => {
         const payload = createPayload(source)
 
         return this.sha256(payload).then(sha => {
           const bookmarklet = createBookmarklet(source, sha, src)
           const metadata = createMetadata(sha, src)
-          const inferredName =
-            src && !this.state.bookmarkletNameEdited
-              ? inferBookmarkletName(src)
-              : this.state.bookmarkletName
+          let inferredName = this.state.bookmarkletName
+
+          if (src && !this.state.bookmarkletNameEdited) {
+            const urlName = inferBookmarkletName(src)
+            const sourceName = looksLikeGistRevision(urlName) ? inferNameFromSource(source) : ''
+
+            inferredName = sourceName || urlName || this.state.bookmarkletName
+          }
 
           return this.inspectValue(bookmarklet).then(inspection => {
             const shareUrl = src ? createShareUrl(src) : ''
@@ -800,7 +922,7 @@ class VerifiableBookmarkletsPage extends React.Component {
             if (shareUrl) {
               copyText(shareUrl).then(
                 () => this.setState({ status: 'Generated. Share URL copied to the clipboard.' }),
-                () => undefined
+                () => undefined,
               )
             }
           })
@@ -810,6 +932,8 @@ class VerifiableBookmarkletsPage extends React.Component {
         this.setState({
           status: error.message,
           statusType: 'error',
+          sourceLocked: false,
+          sharedSource: false,
         })
       })
       .then(() => this.setState({ loading: false }))
@@ -862,7 +986,15 @@ class VerifiableBookmarkletsPage extends React.Component {
   verify = () => {
     const { bookmarklet } = this.state
 
-    this.setState({ loading: true, status: '', statusType: '' })
+    this.setState({
+      loading: true,
+      status: '',
+      statusType: '',
+      generatedBookmarklet: '',
+      generatedSha: '',
+      generatedMetadata: '',
+      inspection: emptyInspection,
+    })
 
     if (!bookmarklet.trim()) {
       this.setState({
@@ -879,12 +1011,14 @@ class VerifiableBookmarkletsPage extends React.Component {
           throw new Error(inspection.metadataError || 'This bookmarklet has no bm:v1 metadata.')
         }
 
-        return this.getActiveSource().then(({ source }) =>
-          this.sha256(createPayload(source)).then(expectedSha => ({
-            expectedSha,
-            inspection,
-          })),
-        )
+        return Promise.resolve()
+          .then(this.getActiveSource)
+          .then(({ source }) =>
+            this.sha256(createPayload(source)).then(expectedSha => ({
+              expectedSha,
+              inspection,
+            })),
+          )
       })
       .then(({ expectedSha, inspection }) => {
         const matches = expectedSha === inspection.metadata.sha
@@ -954,7 +1088,7 @@ class VerifiableBookmarkletsPage extends React.Component {
 
     copyText(createShareUrl(sourceUrl)).then(
       () => this.setState({ status: 'Share URL copied to the clipboard.', statusType: 'success' }),
-      error => this.setState({ status: error.message, statusType: 'error' })
+      error => this.setState({ status: error.message, statusType: 'error' }),
     )
   }
 
@@ -1009,19 +1143,14 @@ class VerifiableBookmarkletsPage extends React.Component {
     return (
       <PageStyled>
         <Helmet title="Verifiable Bookmarklets - Roberto Vázquez González Site" />
-        <Link className="backLink" to="/projects/">
-          Back to projects
-        </Link>
 
         <header className="hero">
           <h3>Verifiable Bookmarklets</h3>
           <p>Generate, inspect and verify bookmarklets without executing them.</p>
-          <p>
-            Bookmarklets are powerful: you can run JavaScript on almost any page by dragging a link
-            to your bookmarks and clicking it. A verifiable bookmarklet keeps that workflow, while
-            adding only a version, SHA-256 hash and optional source URL, so people can share one and
-            prove that it came from the published source. Verification confirms the match, not the
-            safety of the code.
+          <p className="heroNote">
+            A bookmarklet is a normal browser bookmark that stores JavaScript instead of a web
+            address. When you click it, the code runs on whatever page you are currently viewing, so
+            you can automate small tasks on any site without installing an extension.
           </p>
         </header>
 
@@ -1209,19 +1338,32 @@ class VerifiableBookmarkletsPage extends React.Component {
 
         <section className="docs">
           <div className="docBlock">
+            <h3>Why verifiable bookmarklets</h3>
+            <p>
+              Bookmarklets are powerful: you can run JavaScript on almost any page by dragging a
+              link to your bookmarks and clicking it. A verifiable bookmarklet keeps that workflow,
+              while adding only a version, SHA-256 hash and optional source URL, so people can share
+              one and prove that it came from the published source. Verification confirms the match,
+              not the safety of the code.
+            </p>
+          </div>
+          <div className="docBlock">
             <h3>Metadata</h3>
             <p>
               A verifiable bookmarklet is still a normal bookmarklet. It carries a small JavaScript
               comment immediately inside its wrapper, before the source runs:
             </p>
             <code>{'/*bm:v1;sha=<sha256>;src=<url>*/'}</code>
-          </div>
-          <div className="docBlock">
-            <h3>Three fields</h3>
             <ul>
-              <li><code>bm:v1</code> identifies the format.</li>
-              <li><code>sha</code> identifies the exact generated payload.</li>
-              <li><code>src</code> optionally points to the published source.</li>
+              <li>
+                <code>bm:v1</code> identifies the format.
+              </li>
+              <li>
+                <code>sha</code> identifies the exact generated payload.
+              </li>
+              <li>
+                <code>src</code> optionally points to the published source.
+              </li>
             </ul>
           </div>
           <div className="docBlock">
