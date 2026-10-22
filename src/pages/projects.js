@@ -38,6 +38,17 @@ const ProjectsPage = () => (
     </summary>
     <article>
       <h3>
+        <Link to="/projects/stronglist/">StrongList</Link>
+      </h3>
+      <time>September 2026</time>
+      <div>
+        A simple workout log for iPhone and iPad, built natively with SwiftUI. Plans, sets and
+        progress in a calm, notebook-like app, local first with no account and optional sync through
+        your own iCloud Drive.
+      </div>
+    </article>
+    <article>
+      <h3>
         <Link to="/projects/verifiable-bookmarklets/">Verifiable Bookmarklets</Link>
       </h3>
       <time>July 2026</time>
