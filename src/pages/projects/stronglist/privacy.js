@@ -1,9 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import LanguageNav, {
-  Placeholder,
-  StrongListDocument,
-} from '../../../components/StrongListDocument'
+import LanguageNav, { StrongListDocument } from '../../../components/StrongListDocument'
 
 const contactEmail = 'stronglist@robertovg.com'
 
@@ -26,12 +23,10 @@ const PrivacyPage = () => (
       <h1>StrongList Privacy Policy</h1>
       <div className="meta">
         <p>
-          <strong>Effective date:</strong> <Placeholder>[YYYY-MM-DD]</Placeholder>
+          <strong>Effective date:</strong> October 22, 2026
         </p>
         <p>
-          <strong>Who is responsible:</strong>{' '}
-          <Placeholder>[Controller name, e.g. Roberto Vázquez González]</Placeholder>,{' '}
-          <Placeholder>[postal address, if you choose to publish one]</Placeholder>
+          <strong>Who is responsible:</strong> Roberto Vázquez González
         </p>
         <p>
           <strong>Contact:</strong> <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
@@ -141,9 +136,8 @@ const PrivacyPage = () => (
       <h2>If you email us</h2>
       <p>
         If you write to <a href={`mailto:${contactEmail}`}>{contactEmail}</a>, we receive your email
-        address and message and use them only to reply to you. We keep that correspondence for as
-        long as needed to help you, then delete it{' '}
-        <Placeholder>[adjust to your actual practice]</Placeholder>.
+        address and message and use them only to reply to you. Emails are kept only as long as
+        needed to answer your request and are then deleted.
       </p>
 
       <h2>Your rights</h2>
@@ -168,12 +162,10 @@ const PrivacyPage = () => (
       <h1>Política de privacidad de StrongList</h1>
       <div className="meta">
         <p>
-          <strong>Fecha de entrada en vigor:</strong> <Placeholder>[AAAA-MM-DD]</Placeholder>
+          <strong>Fecha de entrada en vigor:</strong> 22 de octubre de 2026
         </p>
         <p>
-          <strong>Responsable:</strong>{' '}
-          <Placeholder>[Nombre del responsable, p. ej. Roberto Vázquez González]</Placeholder>,{' '}
-          <Placeholder>[dirección postal, si decides publicarla]</Placeholder>
+          <strong>Responsable:</strong> Roberto Vázquez González
         </p>
         <p>
           <strong>Contacto:</strong> <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
@@ -297,9 +289,8 @@ const PrivacyPage = () => (
       <h2>Si nos escribes</h2>
       <p>
         Si escribes a <a href={`mailto:${contactEmail}`}>{contactEmail}</a>, recibimos tu dirección
-        y tu mensaje y los usamos solo para responderte. Conservamos esa correspondencia el tiempo
-        necesario para ayudarte y después la borramos{' '}
-        <Placeholder>[ajustar a la práctica real]</Placeholder>.
+        y tu mensaje y los usamos solo para responderte. Los emails se conservan solo el tiempo
+        necesario para atender tu consulta y después se borran.
       </p>
 
       <h2>Tus derechos</h2>

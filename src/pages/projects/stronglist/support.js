@@ -1,12 +1,9 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import LanguageNav, {
-  Placeholder,
-  StrongListDocument,
-} from '../../../components/StrongListDocument'
+import LanguageNav, { StrongListDocument } from '../../../components/StrongListDocument'
 
 const contactEmail = 'stronglist@robertovg.com'
-const privacyUrl = 'https://robertovg.com/apps/stronglist/privacy'
+const privacyUrl = 'https://robertovg.com/projects/stronglist/privacy'
 
 const SupportPage = () => (
   <StrongListDocument>
@@ -30,11 +27,7 @@ const SupportPage = () => (
         to{' '}
         <strong>
           <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-        </strong>.{' '}
-        <Placeholder>
-          [Optional, as required by local law: postal address / phone.]
-        </Placeholder>{' '}
-        I read every message and usually reply within <Placeholder>[X days]</Placeholder>.
+        </strong>. I read every message and reply as soon as I can.
       </p>
       <p>
         When you report a problem, it helps to include your device (iPhone or iPad), iOS version
@@ -139,11 +132,7 @@ const SupportPage = () => (
         ideas, escribe a{' '}
         <strong>
           <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-        </strong>.{' '}
-        <Placeholder>
-          [Opcional, si lo exige la ley local: dirección postal / teléfono.]
-        </Placeholder>{' '}
-        Leo todos los mensajes y suelo responder en <Placeholder>[X días]</Placeholder>.
+        </strong>. Leo todos los mensajes y respondo lo antes posible.
       </p>
       <p>
         Si nos cuentas un problema, ayuda mucho que indiques el dispositivo (iPhone o iPad), la
