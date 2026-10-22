@@ -92,6 +92,10 @@ module.exports = {
     },
     {
       resolve: `gatsby-plugin-sitemap`,
+      options: {
+        // App Store policy and support pages stay out of the sitemap.
+        exclude: [`/projects/stronglist/privacy`, `/projects/stronglist/support`],
+      },
     },
     {
       resolve: 'gatsby-plugin-feed-generator',
