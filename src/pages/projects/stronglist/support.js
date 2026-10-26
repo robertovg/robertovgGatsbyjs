@@ -63,7 +63,7 @@ const SupportPage = () => (
 
       <h3>How do I import a routine from my trainer?</h3>
       <p>
-        While creating a new plan, open the import section and tap &quot;Copy prompt&quot;. Paste
+        While creating a new plan, open the import section and tap &quot;Import with AI&quot;. Paste
         the prompt into the AI app you use, together with a photo or the text of your routine, then
         copy its reply and paste it into StrongList. StrongList has no built-in AI and sends
         nothing anywhere.
@@ -168,8 +168,8 @@ const SupportPage = () => (
 
       <h3>¿Cómo importo la rutina de mi entrenador?</h3>
       <p>
-        Al crear un plan nuevo, abre la sección de importar y pulsa &quot;Copiar prompt&quot;. Pega
-        las instrucciones en la app de IA que uses junto con una foto o el texto de tu rutina,
+        Al crear un plan nuevo, abre la sección de importar y pulsa &quot;Importar con IA&quot;.
+        Pega las instrucciones en la app de IA que uses junto con una foto o el texto de tu rutina,
         copia su respuesta y pégala en StrongList. StrongList no lleva IA integrada ni envía nada a
         ningún sitio.
       </p>
