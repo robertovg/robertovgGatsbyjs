@@ -85,12 +85,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: 'UA-5525453-12',
-      },
-    },
-    {
       resolve: `gatsby-plugin-sitemap`,
       options: {
         // App Store policy and support pages stay out of the sitemap.
