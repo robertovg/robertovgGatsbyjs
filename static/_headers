@@ -1,0 +1,37 @@
+# Cache rules for Cloudflare Pages.
+#
+# Pages and other files without a hash in their name (HTML, chunk-manifest.json,
+# favicons, sitemap, feeds) must always be revalidated, so a deploy is picked up
+# on the next visit. Pages are served at URLs ending in "/".
+#
+# The build files below have a content hash in their name: a new deploy gives
+# them a new name, so the browser can keep them for a year.
+#
+# Rules that match the same URL are merged, so the two groups must not overlap.
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/app-*
+  Cache-Control: public, max-age=31536000, immutable
+
+/commons-*
+  Cache-Control: public, max-age=31536000, immutable
+
+/component---*
+  Cache-Control: public, max-age=31536000, immutable
+
+/path---*
+  Cache-Control: public, max-age=31536000, immutable
+
+/layout-*
+  Cache-Control: public, max-age=31536000, immutable
+
+/static/*
+  Cache-Control: public, max-age=31536000, immutable
