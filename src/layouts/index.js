@@ -5,7 +5,6 @@ import styled from 'styled-components'
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import SEO from '../components/SEO'
 
 import './index.css'
 import { colors, pageLinks, maxMainWith } from '../components/constants'
@@ -67,13 +66,12 @@ const BodyStyled = styled.div`
   min-width: 0;
 `
 const parentContainer = 'content_container'
-const TemplateWrapper = ({ children, location, data }) => (
+const TemplateWrapper = ({ children, location }) => (
   <GatsbyStyled actualPage={getActualPage(location.pathname)} id={parentContainer}>
-    {/* Site wide defaults, a page or post can override any of these tags. */}
-    <SEO siteMetadata={data.site.siteMetadata} pathname={location.pathname} />
     <Helmet
       title="Roberto Vázquez González Site"
       meta={[
+        { name: 'description', content: 'Roberto Vázquez González Personal Web Site' },
         {
           name: 'keywords',
           content: `developer,
@@ -104,29 +102,15 @@ const TemplateWrapper = ({ children, location, data }) => (
 
 export default TemplateWrapper
 
-export const query = graphql`
-  query LayoutSiteMetadataQuery {
-    site {
-      siteMetadata {
-        title
-        description
-        siteUrl
-      }
-    }
-  }
-`
-
 /**
  * Prop types
  */
 TemplateWrapper.propTypes = {
   children: PropTypes.func,
   location: PropTypes.object,
-  data: PropTypes.object,
 }
 
 TemplateWrapper.defaultProps = {
   children() {},
   location: {},
-  data: {},
 }

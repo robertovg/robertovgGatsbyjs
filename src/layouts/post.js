@@ -4,8 +4,6 @@ import Img from 'gatsby-image'
 import Helmet from 'react-helmet'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
-
-import SEO from '../components/SEO'
 // Disqus comments temporarily disabled (no comments yet)
 // import { DiscussionEmbed } from 'disqus-react'
 
@@ -35,40 +33,18 @@ const PostStyled = styled.section`
     overflow: auto;
   }
 `
-// Reuse the largest image already generated for the post cover, so the share
-// image is the same file the page shows. Its width comes from the srcSet entry
-// matching src, and the height from the aspect ratio.
-function shareImageFromSizes({ src, srcSet, aspectRatio }) {
-  const entry = (srcSet || '')
-    .split(',')
-    .map(item => item.trim().split(/\s+/))
-    .find(([url]) => url === src)
-  const width = entry && entry[1] ? parseInt(entry[1], 10) : undefined
-  const height = width && aspectRatio ? Math.round(width / aspectRatio) : undefined
-  return { src, width, height }
-}
-
 export default function Template({ data }) {
-  const { markdownRemark: post, site } = data
+  const { markdownRemark: post } = data
   const postTags = post.frontmatter.tags || ['brilliant idea']
-  const shareImage = shareImageFromSizes(post.frontmatter.featuredImage.childImageSharp.sizes)
   return (
     <PostStyled>
-      <SEO
-        siteMetadata={site.siteMetadata}
-        pathname={post.frontmatter.path}
-        title={post.frontmatter.title}
-        description={post.excerpt}
-        image={shareImage.src}
-        imageWidth={shareImage.width}
-        imageHeight={shareImage.height}
-        imageAlt={post.frontmatter.title}
-        type="article"
-        publishedTime={post.frontmatter.isoDate}
-      />
       <Helmet
         title={`${post.frontmatter.title} - Roberto Vázquez González Site`}
         meta={[
+          {
+            name: 'description',
+            content: `${post.frontmatter.title} - Roberto Vázquez González Site`,
+          },
           {
             name: 'keywords',
             content: `${postTags.join(',')},developer,
@@ -108,16 +84,8 @@ export default function Template({ data }) {
 
 export const postQuery = graphql`
   query BlogPostByPath($path: String) {
-    site {
-      siteMetadata {
-        title
-        description
-        siteUrl
-      }
-    }
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       html
-      excerpt(pruneLength: 200)
       frontmatter {
         path
         title
@@ -129,7 +97,6 @@ export const postQuery = graphql`
           }
         }
         date(formatString: "DD MMM, YYYY")
-        isoDate: date(formatString: "YYYY-MM-DD")
         tags
       }
     }
