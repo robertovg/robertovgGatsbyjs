@@ -53,7 +53,7 @@ PR discussions are exactly the kind of context that makes an AI answer much more
 
 And again, the important part is that the AI doesn't need GitHub access. I am giving it the content I want it to see. Not needing GitHub API credentials doesn't make a private PR public or automatically safe to share, though. Whatever I select still gets sent to the AI provider I paste it into.
 
-The source is also [public as a Gist](https://gist.github.com/robertovg/27b8a3da1dce1659239a0dfd26a671e5), and you can [generate the bookmarklet from it with Verifiable Bookmarklets](https://robertovg.com/projects/verifiable-bookmarklets/?src=https%3A%2F%2Fgist.githubusercontent.com%2Frobertovg%2F27b8a3da1dce1659239a0dfd26a671e5%2Fraw%2F5943bbc08fdccb79daa21063a12dd20495db81d5%2FGitHub%252520PR%252520Feedback%252520Extractor%252520-%252520bookmarklet.js).
+The source is also [public as a Gist](https://gist.github.com/robertovg/27b8a3da1dce1659239a0dfd26a671e5), and you can [generate the bookmarklet from it with Verifiable Bookmarklets](https://robertovg.com/projects/verifiable-bookmarklets/?src=https%3A%2F%2Fgist.githubusercontent.com%2Frobertovg%2F27b8a3da1dce1659239a0dfd26a671e5%2Fraw%2Fa6a41b9608d7d5e5ae6064aeafa39e27a608bbd1%2FGitHub%252520PR%252520Feedback%252520Extractor%252520-%252520bookmarklet.js).
 
 ## Client versus server
 
