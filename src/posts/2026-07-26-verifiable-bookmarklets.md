@@ -187,7 +187,7 @@ async function verify(bookmarklet, source) {
 
 The deterministic step stays conservative on purpose: normalize newlines, trim the source, hash the generated payload. It just turns JavaScript you could run in your console into a bookmarklet you can check.
 
-The rest of the implementation lives in [this site's GitHub repo](https://github.com/robertovg/robertovgGatsbyjs/blob/main/src/pages/projects/verifiable-bookmarklets.js#L417).
+The rest of the implementation lives in [this site's GitHub repo](https://github.com/robertovg/robertovgGatsbyjs/blob/main/src/pages/projects/verifiable-bookmarklets.js#L459).
 
 ## Try it
 
