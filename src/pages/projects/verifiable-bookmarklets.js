@@ -319,6 +319,15 @@ const PageStyled = styled.article`
     background: rgba(72, 123, 49, 0.1);
   }
 
+  .status.warning {
+    border-left-color: #b8860b;
+    background: rgba(184, 134, 11, 0.1);
+  }
+
+  .status.warning a {
+    margin-left: 0.35rem;
+  }
+
   details {
     margin-top: 0.85rem;
   }
@@ -349,6 +358,38 @@ const PageStyled = styled.article`
 
   .docBlock ul {
     padding-left: 1.1rem;
+  }
+
+  .versionLog {
+    margin-top: 1rem;
+  }
+
+  .versionLog ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .versionLog ol > li + li {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .versionLog h4 {
+    margin: 0 0 0.35rem;
+    font-size: 1rem;
+  }
+
+  .versionLog time {
+    margin-left: 0.5rem;
+    color: ${colors.mediaColor};
+    font-size: 0.85rem;
+    font-weight: normal;
+  }
+
+  .versionLog ul {
+    margin: 0.5rem 0 0;
   }
 
   code {
@@ -423,10 +464,13 @@ function minifySource(source) {
   return normalizeSource(source)
 }
 
+// encodeURIComponent leaves * untouched, but a raw * followed by / would close
+// the metadata comment early, so it is escaped too.
 function encodeBookmarkletValue(value) {
   return encodeURIComponent(value)
     .replace(/'/g, '%27')
     .replace(/"/g, '%22')
+    .replace(/\*/g, '%2A')
 }
 
 function encodeBookmarkletBody(body) {
@@ -437,12 +481,30 @@ function createPayload(source) {
   return encodeBookmarkletBody(`(()=>{${minifySource(source)}})()`)
 }
 
-function createMetadata(sha, src) {
-  return src ? `/*bm:v1;sha=${sha};src=${encodeBookmarkletValue(src)}*/` : `/*bm:v1;sha=${sha}*/`
+const METADATA_VERSION = 'v1.1'
+const SUPPORTED_METADATA_VERSIONS = ['v1', 'v1.1']
+const METADATA_PATTERN = /\/\*bm:v1(?:\.1)?;[^*]*\*\//
+const METADATA_PATTERN_GLOBAL = new RegExp(METADATA_PATTERN.source, 'g')
+const GIST_REVISION_PATTERN = /^[0-9a-f]{40}$/
+
+// Format 1.1: rev is only emitted (and then mandatory) for Gist sources. Code
+// mode and other URLs get bm:v1.1 without rev.
+function createMetadata(sha, src, rev) {
+  const fields = [`bm:${METADATA_VERSION}`, `sha=${sha}`]
+
+  if (src) {
+    fields.push(`src=${encodeBookmarkletValue(src)}`)
+  }
+
+  if (rev) {
+    fields.push(`rev=${rev}`)
+  }
+
+  return `/*${fields.join(';')}*/`
 }
 
-function createBookmarklet(source, sha, src) {
-  return encodeBookmarkletBody(`(()=>{${createMetadata(sha, src)}${minifySource(source)}})()`)
+function createBookmarklet(source, sha, src, rev) {
+  return encodeBookmarkletBody(`(()=>{${createMetadata(sha, src, rev)}${minifySource(source)}})()`)
 }
 
 function decodeBookmarklet(bookmarklet) {
@@ -464,8 +526,80 @@ function decodeBookmarklet(bookmarklet) {
   }
 }
 
+const GIST_REVISION_SEGMENT = /^[0-9a-f]{7,40}$/i
+
+// Reads the parts of a Gist page URL (gist.github.com/<user>/<id>[/<revision>])
+// or a Gist raw URL (gist.githubusercontent.com/<user>/<id>/raw[/<revision>][/<file>]).
+// Returns null for anything that is not a Gist.
+function parseGistUrl(value) {
+  let parsed
+
+  try {
+    parsed = new URL(value)
+  } catch (error) {
+    return null
+  }
+
+  const path = parsed.pathname.split('/').filter(Boolean)
+
+  if (parsed.hostname === 'gist.github.com') {
+    if (!path[0] || !path[1]) {
+      throw new Error('This is a Gist URL but it is missing the user and gist id.')
+    }
+
+    const revision = path[2] && GIST_REVISION_SEGMENT.test(path[2]) ? path[2] : ''
+
+    return { user: path[0], id: path[1], revision, filename: '' }
+  }
+
+  if (parsed.hostname === 'gist.githubusercontent.com') {
+    if (!path[0] || !path[1] || path[2] !== 'raw') {
+      throw new Error(
+        'Gist raw URLs look like https://gist.githubusercontent.com/<user>/<gist>/raw/<revision>',
+      )
+    }
+
+    const hasRevision = Boolean(path[3] && GIST_REVISION_SEGMENT.test(path[3]))
+    const filenameIndex = hasRevision ? 4 : 3
+
+    return {
+      user: path[0],
+      id: path[1],
+      revision: hasRevision ? path[3] : '',
+      filename: path.slice(filenameIndex).join('/'),
+    }
+  }
+
+  return null
+}
+
+// bm:v1.1 rules for rev: required when src is a Gist, it must be a full
+// 40 character revision, and it must be the same revision the src URL is
+// pinned to. Non-Gist sources carry no rev.
+function validateRevisionField(metadata) {
+  const gist = metadata.src ? parseGistUrl(metadata.src) : null
+
+  if (metadata.rev && !GIST_REVISION_PATTERN.test(metadata.rev)) {
+    return 'rev must be 40 lowercase hex characters.'
+  }
+
+  if (!gist) {
+    return metadata.rev ? 'rev is only allowed when src is a Gist URL.' : ''
+  }
+
+  if (!metadata.rev) {
+    return 'bm:v1.1 requires rev when src is a Gist URL.'
+  }
+
+  if (gist.revision.toLowerCase() !== metadata.rev) {
+    return 'rev does not match the Gist revision pinned in src.'
+  }
+
+  return ''
+}
+
 function parseMetadata(decoded) {
-  const matches = decoded.match(/\/\*bm:v1;[^*]*\*\//g)
+  const matches = decoded.match(METADATA_PATTERN_GLOBAL)
 
   if (!matches) {
     return { metadata: null, error: '' }
@@ -477,12 +611,14 @@ function parseMetadata(decoded) {
 
   const raw = matches[0].slice(2, -2)
   const parts = raw.split(';')
+  const version = parts[0].indexOf('bm:') === 0 ? parts[0].slice('bm:'.length) : ''
 
-  if (parts[0] !== 'bm:v1') {
-    return { metadata: null, error: 'Metadata must start with bm:v1.' }
+  if (SUPPORTED_METADATA_VERSIONS.indexOf(version) === -1) {
+    return { metadata: null, error: 'Metadata must start with bm:v1 or bm:v1.1.' }
   }
 
-  const metadata = { bm: 'v1', raw: matches[0] }
+  const allowedKeys = version === 'v1' ? ['sha', 'src'] : ['sha', 'src', 'rev']
+  const metadata = { bm: version, raw: matches[0] }
   const seen = {}
 
   for (let i = 1; i < parts.length; i += 1) {
@@ -496,7 +632,7 @@ function parseMetadata(decoded) {
     const key = part.slice(0, separatorIndex)
     const value = part.slice(separatorIndex + 1)
 
-    if (key !== 'sha' && key !== 'src') {
+    if (allowedKeys.indexOf(key) === -1) {
       return { metadata: null, error: `Unknown metadata field: ${key}.` }
     }
 
@@ -505,7 +641,12 @@ function parseMetadata(decoded) {
     }
 
     seen[key] = true
-    metadata[key] = key === 'src' ? decodeURIComponent(value) : value
+
+    try {
+      metadata[key] = key === 'src' ? decodeURIComponent(value) : value
+    } catch (error) {
+      return { metadata: null, error: `Metadata field ${key} is not correctly encoded.` }
+    }
   }
 
   if (!metadata.sha) {
@@ -520,11 +661,19 @@ function parseMetadata(decoded) {
     return { metadata: null, error: 'src must be an absolute http or https URL.' }
   }
 
+  if (version === 'v1.1') {
+    const revisionError = validateRevisionField(metadata)
+
+    if (revisionError) {
+      return { metadata: null, error: revisionError }
+    }
+  }
+
   return { metadata, error: '' }
 }
 
 function removeMetadata(decoded) {
-  return decoded.replace(/\/\*bm:v1;[^*]*\*\//, '')
+  return decoded.replace(METADATA_PATTERN, '')
 }
 
 function getBookmarkletFromDrop(event) {
@@ -545,42 +694,192 @@ function getBookmarkletFromDrop(event) {
   )
 }
 
+// Raw URL for one Gist revision. The filename is kept exactly as it was in the
+// pasted URL (already encoded), so existing share links stay byte for byte the same.
+function createGistRawUrl(gist, revision, filename) {
+  const file = filename ? `/${filename}` : ''
+
+  return `https://gist.githubusercontent.com/${gist.user}/${gist.id}/raw/${revision}${file}`
+}
+
+function shortRevision(revision) {
+  return revision ? revision.slice(0, 7) : ''
+}
+
+function formatRevisionDate(value) {
+  return value ? value.slice(0, 10) : ''
+}
+
 function validateSourceUrl(value) {
   const sourceUrl = value.trim()
 
   try {
     const parsed = new URL(sourceUrl)
-    const path = parsed.pathname.split('/').filter(Boolean)
 
-    if (parsed.hostname === 'gist.github.com') {
-      if (!path[0] || !path[1]) {
-        throw new Error('This is a Gist URL but it is missing the user and gist id.')
-      }
-
-      // A Gist page URL is not fetchable, but the matching raw URL is: GitHub
-      // serves the raw file (the first one when a Gist has several) with
-      // permissive CORS headers. Convert it so the paste just works.
-      const revision = path[2] && path[2] !== 'raw' ? `/${path[2]}` : ''
-
-      return `https://gist.githubusercontent.com/${path[0]}/${path[1]}/raw${revision}`
-    }
-
-    if (parsed.hostname === 'gist.githubusercontent.com') {
-      if (path[2] !== 'raw' || !path[3]) {
-        throw new Error(
-          'Gist raw URLs must include the revision: https://gist.githubusercontent.com/<user>/<gist>/raw/<revision>[/<filename>]',
-        )
-      }
+    if (!/^https?:$/.test(parsed.protocol)) {
+      throw new Error('Enter a valid absolute http or https URL.')
     }
   } catch (error) {
-    if (error.message.indexOf('Gist ') === 0 || error.message.indexOf('This is a Gist') === 0) {
-      throw error
-    }
-
     throw new Error('Enter a valid absolute http or https URL.')
   }
 
+  // Throws a readable error for malformed Gist URLs.
+  parseGistUrl(sourceUrl)
+
   return sourceUrl
+}
+
+// Asks the public GitHub API which revisions a Gist has. It is called from the
+// browser (the API sends Access-Control-Allow-Origin: *) and is limited to 60
+// unauthenticated requests per hour per IP, so callers must handle failure.
+function fetchGistInfo(gistId) {
+  return fetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}`, {
+    headers: { Accept: 'application/vnd.github+json' },
+  })
+    .catch(() => {
+      throw new Error('Could not reach the GitHub API.')
+    })
+    .then(response => {
+      if (!response.ok) {
+        const rateLimited =
+          (response.status === 403 || response.status === 429) &&
+          response.headers.get('x-ratelimit-remaining') === '0'
+
+        throw new Error(
+          rateLimited
+            ? 'The GitHub API rate limit for your connection was reached (60 requests per hour).'
+            : `The GitHub API answered HTTP ${response.status}.`,
+        )
+      }
+
+      return response.json()
+    })
+    .then(data => {
+      const history = (data && data.history) || []
+
+      if (!history.length || !history[0].version) {
+        throw new Error('The GitHub API did not return any Gist revision.')
+      }
+
+      const files = Object.keys(data.files || {}).map(name => data.files[name])
+
+      return {
+        latestRevision: history[0].version,
+        latestDate: history[0].committed_at,
+        revisions: history.map(entry => entry.version),
+        latestBlobs: files
+          .map(file => {
+            const gist = file.raw_url ? parseGistUrl(file.raw_url) : null
+
+            return gist ? gist.revision : ''
+          })
+          .filter(Boolean),
+        filenames: files.map(file => file.filename),
+      }
+    })
+}
+
+function newerRevisionNotice(gist, revision, info) {
+  return {
+    message: `A newer revision of this Gist exists (${shortRevision(
+      info.latestRevision,
+    )}, ${formatRevisionDate(info.latestDate)}). This one stays pinned to ${shortRevision(
+      revision,
+    )}. Review the newer revision before switching to it.`,
+    link: `https://gist.github.com/${gist.user}/${gist.id}/${info.latestRevision}`,
+    linkLabel: 'View newer revision',
+  }
+}
+
+// Turns any Gist URL into a raw URL pinned to a full revision, plus the
+// revision itself for the rev metadata field.
+// - Unpinned URL: resolved and pinned to the latest revision.
+// - Pinned URL: kept as is. If there is a newer revision we only warn, we never
+//   switch on our own.
+// - GitHub API unavailable: the URL's own revision is used (with a warning);
+//   without one there is no revision to pin, so we stop.
+function resolveGistSource(sourceUrl, gist) {
+  return fetchGistInfo(gist.id).then(
+    info => {
+      if (!gist.revision) {
+        const filename =
+          gist.filename ||
+          (info.filenames.length === 1 ? encodeURIComponent(info.filenames[0]) : '')
+
+        return {
+          fetchUrl: createGistRawUrl(gist, info.latestRevision, filename),
+          rev: info.latestRevision,
+          latestRevision: info.latestRevision,
+          notice: {
+            message: [
+              'This Gist URL was not pinned, so it was pinned to the latest revision',
+              `(${shortRevision(info.latestRevision)}, ${formatRevisionDate(info.latestDate)}).`,
+            ].join(' '),
+          },
+        }
+      }
+
+      const pinned = gist.revision.toLowerCase()
+      const revision = info.revisions.filter(version => version.indexOf(pinned) === 0)[0]
+
+      if (revision) {
+        return {
+          fetchUrl: createGistRawUrl(gist, revision, gist.filename),
+          rev: revision,
+          latestRevision: info.latestRevision,
+          notice:
+            revision === info.latestRevision ? null : newerRevisionNotice(gist, revision, info),
+        }
+      }
+
+      // Raw links copied from the API point at a file blob, not a revision. When
+      // that blob belongs to the latest revision, pin to that revision instead.
+      if (info.latestBlobs.indexOf(pinned) !== -1) {
+        return {
+          fetchUrl: createGistRawUrl(gist, info.latestRevision, gist.filename),
+          rev: info.latestRevision,
+          latestRevision: info.latestRevision,
+          notice: {
+            message: [
+              'This URL pointed at a file blob, so it was pinned to the Gist revision that',
+              `contains it (${shortRevision(info.latestRevision)}).`,
+            ].join(' '),
+          },
+        }
+      }
+
+      throw new Error(
+        [
+          `${shortRevision(pinned)} is not a revision of this Gist. Use the Gist URL of a revision`,
+          '(https://gist.github.com/<user>/<gist>/<revision>) or the Gist URL without a revision.',
+        ].join(' '),
+      )
+    },
+    error => {
+      if (!gist.revision || !GIST_REVISION_PATTERN.test(gist.revision.toLowerCase())) {
+        throw new Error(
+          [
+            error.message,
+            'The latest Gist revision could not be resolved.',
+            'Paste a Gist URL pinned to a full revision, or try again later.',
+          ].join(' '),
+        )
+      }
+
+      const revision = gist.revision.toLowerCase()
+
+      return {
+        fetchUrl: createGistRawUrl(gist, revision, gist.filename),
+        rev: revision,
+        latestRevision: '',
+        notice: {
+          message: `${error.message} Using the revision in the URL (${shortRevision(
+            revision,
+          )}) without checking whether a newer one exists.`,
+        },
+      }
+    },
+  )
 }
 
 const HTML_SOURCE_START = /^\s*(<!doctype html|<html[\s>]|<\?xml)/i
@@ -744,6 +1043,7 @@ class VerifiableBookmarkletsPage extends React.Component {
     inspection: emptyInspection,
     status: '',
     statusType: '',
+    notice: null,
     loading: false,
     bookmarkletName: 'Drag me to bookmarks',
     bookmarkletNameEdited: false,
@@ -778,6 +1078,9 @@ class VerifiableBookmarkletsPage extends React.Component {
       return Promise.resolve({
         source: sourceCode,
         src: '',
+        rev: '',
+        latestRevision: '',
+        notice: null,
       })
     }
 
@@ -785,15 +1088,33 @@ class VerifiableBookmarkletsPage extends React.Component {
       return Promise.reject(new Error('Add a source URL first.'))
     }
 
-    let fetchUrl
+    let validatedUrl
+    let gist
 
     try {
-      fetchUrl = validateSourceUrl(sourceUrl)
+      validatedUrl = validateSourceUrl(sourceUrl)
+      gist = parseGistUrl(validatedUrl)
     } catch (error) {
       return Promise.reject(error)
     }
 
-    return fetch(fetchUrl)
+    const resolved = gist
+      ? resolveGistSource(validatedUrl, gist)
+      : Promise.resolve({ fetchUrl: validatedUrl, rev: '', latestRevision: '', notice: null })
+
+    return resolved.then(({ fetchUrl, rev, latestRevision, notice }) =>
+      this.fetchSource(fetchUrl).then(source => ({
+        source,
+        src: fetchUrl,
+        rev,
+        latestRevision,
+        notice,
+      })),
+    )
+  }
+
+  fetchSource = fetchUrl =>
+    fetch(fetchUrl)
       .then(response => {
         if (!response.ok) {
           throw new Error(
@@ -803,10 +1124,7 @@ class VerifiableBookmarkletsPage extends React.Component {
 
         const contentType = response.headers.get('content-type') || ''
 
-        return response.text().then(source => ({
-          source: assertRunnableSource(source, contentType),
-          src: fetchUrl,
-        }))
+        return response.text().then(source => assertRunnableSource(source, contentType))
       })
       .catch(error => {
         if (error.name === 'TypeError') {
@@ -817,7 +1135,6 @@ class VerifiableBookmarkletsPage extends React.Component {
 
         throw error
       })
-  }
 
   sha256 = value => {
     if (
@@ -839,7 +1156,7 @@ class VerifiableBookmarkletsPage extends React.Component {
   }
 
   setInputMode = inputMode => {
-    this.setState({ inputMode, status: '', statusType: '' }, () => {
+    this.setState({ inputMode, status: '', statusType: '', notice: null }, () => {
       if (inputMode === 'code' && this.sourceCodeInput) {
         this.sourceCodeInput.focus()
         this.sourceCodeInput.select()
@@ -848,7 +1165,7 @@ class VerifiableBookmarkletsPage extends React.Component {
   }
 
   setActionMode = actionMode => {
-    this.setState({ actionMode, status: '', statusType: '' })
+    this.setState({ actionMode, status: '', statusType: '', notice: null })
   }
 
   finishBookmarkletNameEdit = () => {
@@ -873,6 +1190,7 @@ class VerifiableBookmarkletsPage extends React.Component {
       loading: true,
       status: '',
       statusType: '',
+      notice: null,
       generatedBookmarklet: '',
       generatedSha: '',
       generatedMetadata: '',
@@ -882,12 +1200,12 @@ class VerifiableBookmarkletsPage extends React.Component {
 
     Promise.resolve()
       .then(this.getActiveSource)
-      .then(({ source, src }) => {
+      .then(({ source, src, rev, notice }) => {
         const payload = createPayload(source)
 
         return this.sha256(payload).then(sha => {
-          const bookmarklet = createBookmarklet(source, sha, src)
-          const metadata = createMetadata(sha, src)
+          const bookmarklet = createBookmarklet(source, sha, src, rev)
+          const metadata = createMetadata(sha, src, rev)
           let inferredName = this.state.bookmarkletName
 
           if (src && !this.state.bookmarkletNameEdited) {
@@ -914,6 +1232,7 @@ class VerifiableBookmarkletsPage extends React.Component {
               sourceUrl: src || this.state.sourceUrl,
               sharedSource: src ? true : this.state.sharedSource,
               sourceLocked: src ? true : this.state.sourceLocked,
+              notice,
               status:
                 'Generated. Drag the link to your bookmarks bar, or copy the bookmarklet text.',
               statusType: 'success',
@@ -990,6 +1309,7 @@ class VerifiableBookmarkletsPage extends React.Component {
       loading: true,
       status: '',
       statusType: '',
+      notice: null,
       generatedBookmarklet: '',
       generatedSha: '',
       generatedMetadata: '',
@@ -1008,26 +1328,57 @@ class VerifiableBookmarkletsPage extends React.Component {
     this.inspectValue(bookmarklet)
       .then(inspection => {
         if (!inspection.metadata || inspection.metadataError) {
-          throw new Error(inspection.metadataError || 'This bookmarklet has no bm:v1 metadata.')
+          throw new Error(
+            inspection.metadataError || 'This bookmarklet has no bm:v1 or bm:v1.1 metadata.',
+          )
         }
 
         return Promise.resolve()
           .then(this.getActiveSource)
-          .then(({ source }) =>
+          .then(({ source, rev, latestRevision, notice }) =>
             this.sha256(createPayload(source)).then(expectedSha => ({
               expectedSha,
               inspection,
+              rev,
+              latestRevision,
+              notice,
             })),
           )
       })
-      .then(({ expectedSha, inspection }) => {
+      .then(({ expectedSha, inspection, rev, latestRevision, notice }) => {
         const matches = expectedSha === inspection.metadata.sha
+        const bookmarkletRev = inspection.metadata.rev || ''
+        const gist = inspection.metadata.src ? parseGistUrl(inspection.metadata.src) : null
+        let verifyNotice = notice
+
+        // The bookmarklet itself may be pinned to an older revision than the
+        // latest one, even when it is checked against that same old revision.
+        if (bookmarkletRev && latestRevision && bookmarkletRev !== latestRevision && gist) {
+          verifyNotice = {
+            message: `This bookmarklet is pinned to Gist revision ${shortRevision(
+              bookmarkletRev,
+            )}, but a newer revision exists (${shortRevision(
+              latestRevision,
+            )}). Review it before regenerating.`,
+            link: `https://gist.github.com/${gist.user}/${gist.id}/${latestRevision}`,
+            linkLabel: 'View newer revision',
+          }
+        }
+
+        let mismatchHint = ''
+
+        if (!matches && bookmarkletRev && rev && bookmarkletRev !== rev) {
+          mismatchHint = ` The bookmarklet was built from revision ${shortRevision(
+            bookmarkletRev,
+          )} and the source URL points at ${shortRevision(rev)}.`
+        }
 
         this.setState({
           inspection,
+          notice: verifyNotice,
           status: matches
             ? 'Bookmarklet matches the source.'
-            : 'Bookmarklet does not match the source.',
+            : `Bookmarklet does not match the source.${mismatchHint}`,
           statusType: matches ? 'success' : 'error',
         })
       })
@@ -1066,6 +1417,7 @@ class VerifiableBookmarkletsPage extends React.Component {
       inspection: emptyInspection,
       status: '',
       statusType: '',
+      notice: null,
       bookmarkletName: 'Drag me to bookmarks',
       bookmarkletNameEdited: false,
       editingBookmarkletName: false,
@@ -1100,6 +1452,8 @@ class VerifiableBookmarkletsPage extends React.Component {
 
     return (
       <div className="metaGrid">
+        <strong>Format</strong>
+        <span className="mono">{metadata ? `bm:${metadata.bm}` : 'None'}</span>
         <strong>SHA</strong>
         <span className="mono">
           {(metadata && metadata.sha) || generatedSha || 'Not generated yet'}
@@ -1113,6 +1467,8 @@ class VerifiableBookmarkletsPage extends React.Component {
             </a>
           ) : null}
         </span>
+        {metadata && metadata.rev ? <strong>Revision</strong> : null}
+        {metadata && metadata.rev ? <span className="mono">{metadata.rev}</span> : null}
         <strong>Metadata</strong>
         <span className="mono">{(metadata && metadata.raw) || generatedMetadata || 'None'}</span>
         <strong>Size</strong>
@@ -1132,6 +1488,7 @@ class VerifiableBookmarkletsPage extends React.Component {
       inspection,
       status,
       statusType,
+      notice,
       loading,
       bookmarkletName,
       bookmarkletNameEdited,
@@ -1291,7 +1648,7 @@ class VerifiableBookmarkletsPage extends React.Component {
                 id="bookmarklet"
                 value={bookmarklet}
                 spellCheck="false"
-                placeholder="javascript:(()=>{/*bm:v1;sha=...*/alert('hi')})()"
+                placeholder="javascript:(()=>{/*bm:v1.1;sha=...*/alert('hi')})()"
                 onChange={event => this.setState({ bookmarklet: event.target.value })}
               />
             </div>
@@ -1320,6 +1677,17 @@ class VerifiableBookmarkletsPage extends React.Component {
 
             {status ? <p className={`status ${statusType}`}>{status}</p> : null}
 
+            {notice ? (
+              <p className="status warning">
+                {notice.message}
+                {notice.link ? (
+                  <a href={notice.link} target="_blank" rel="noopener noreferrer">
+                    {notice.linkLabel || 'View on GitHub'}
+                  </a>
+                ) : null}
+              </p>
+            ) : null}
+
             {this.renderMetadata()}
 
             {inspection.metadataError ? (
@@ -1342,9 +1710,9 @@ class VerifiableBookmarkletsPage extends React.Component {
             <p>
               Bookmarklets are powerful: you can run JavaScript on almost any page by dragging a
               link to your bookmarks and clicking it. A verifiable bookmarklet keeps that workflow,
-              while adding only a version, SHA-256 hash and optional source URL, so people can share
-              one and prove that it came from the published source. Verification confirms the match,
-              not the safety of the code.
+              while adding only a version, SHA-256 hash, optional source URL and, for Gists, the
+              exact revision, so people can share one and prove that it came from the published
+              source. Verification confirms the match, not the safety of the code.
             </p>
           </div>
           <div className="docBlock">
@@ -1353,16 +1721,21 @@ class VerifiableBookmarkletsPage extends React.Component {
               A verifiable bookmarklet is still a normal bookmarklet. It carries a small JavaScript
               comment immediately inside its wrapper, before the source runs:
             </p>
-            <code>{'/*bm:v1;sha=<sha256>;src=<url>*/'}</code>
+            <code>{'/*bm:v1.1;sha=<sha256>;src=<url>;rev=<revision>*/'}</code>
             <ul>
               <li>
-                <code>bm:v1</code> identifies the format.
+                <code>bm:v1.1</code> identifies the format. Older <code>bm:v1</code> bookmarklets
+                are still verified.
               </li>
               <li>
                 <code>sha</code> identifies the exact generated payload.
               </li>
               <li>
                 <code>src</code> optionally points to the published source.
+              </li>
+              <li>
+                <code>rev</code> is the full Gist revision. It is required when <code>src</code> is
+                a Gist and must be the revision the URL is pinned to. Other sources leave it out.
               </li>
             </ul>
           </div>
@@ -1378,6 +1751,57 @@ class VerifiableBookmarkletsPage extends React.Component {
               code is safe or trustworthy.
             </p>
           </div>
+        </section>
+
+        <section className="docBlock versionLog" aria-labelledby="version-log">
+          <h3 id="version-log">Version log</h3>
+          <ol>
+            <li>
+              <h4>
+                v1.1<time dateTime="2026-11-05">2026-11-05</time>
+              </h4>
+              <code>{'/*bm:v1.1;sha=<sha256>;src=<url>;rev=<revision>*/'}</code>
+              <ul>
+                <li>
+                  New <code>rev</code> field with the full Gist revision. It is required for Gist
+                  sources and has to match the revision pinned in <code>src</code>, so a bookmarklet
+                  always says which version of the Gist it was built from.
+                </li>
+                <li>
+                  A Gist URL without a revision is pinned to the latest one. If the pasted URL is
+                  pinned and a newer revision exists, the generator and the verifier show a notice
+                  but keep the pinned revision.
+                </li>
+                <li>
+                  Non-Gist sources and pasted code use <code>bm:v1.1</code> without <code>rev</code>
+                  .
+                </li>
+                <li>
+                  <code>*</code> in <code>src</code> is escaped as <code>%2A</code> so it cannot
+                  close the comment early.
+                </li>
+                <li>
+                  The hash is unchanged: it still covers the payload without the metadata comment,
+                  and <code>bm:v1</code> bookmarklets keep verifying.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <h4>
+                v1<time dateTime="2026-07-26">2026-07-26</time>
+              </h4>
+              <code>{'/*bm:v1;sha=<sha256>;src=<url>*/'}</code>
+              <ul>
+                <li>
+                  <code>sha</code> is the SHA-256 of the generated payload, calculated before the
+                  metadata comment is inserted.
+                </li>
+                <li>
+                  <code>src</code> optionally points to the published source.
+                </li>
+              </ul>
+            </li>
+          </ol>
         </section>
       </PageStyled>
     )
