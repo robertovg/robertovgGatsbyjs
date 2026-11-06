@@ -9,10 +9,29 @@ import screenPlansList from '../../../images/stronglist/screen-plans-list-clean.
 import screenPlanToday from '../../../images/stronglist/screen-plan-today.jpg'
 import screenWorkoutLogging from '../../../images/stronglist/screen-workout-logging.jpg'
 import screenProgressWeek from '../../../images/stronglist/screen-progress-week.jpg'
+import shareImage from '../../../posts/images/stronglist.png'
 
 // The App Store URL for StrongList. While it is empty the hero shows a disabled
 // "Coming soon" badge; once it is set the badge becomes a normal link to the listing.
-const APP_STORE_URL = ''
+const APP_STORE_URL = 'https://apps.apple.com/app/stronglist/id6819074489'
+const APP_STORE_ID = '6819074489'
+
+const SITE_URL = 'https://robertovg.com'
+const PAGE_URL = `${SITE_URL}/projects/stronglist/`
+const PAGE_TITLE = 'StrongList - Roberto Vázquez González Site'
+const SHARE_TITLE = 'StrongList, a simple workout log for iPhone and iPad'
+const PAGE_DESCRIPTION =
+  'StrongList, a simple workout log for iPhone and iPad. Plans, sets and progress.'
+const SHARE_IMAGE_URL = `${SITE_URL}${shareImage}`
+const SHARE_IMAGE_ALT = 'StrongList app icon and wordmark, out now on iPhone and iPad'
+
+// Product social accounts. TikTok stays hidden until @stronglist_app is live there.
+const SHOW_TIKTOK = false
+const socialLinks = [
+  { label: 'X', href: 'https://x.com/stronglist_app' },
+  { label: 'Instagram', href: 'https://www.instagram.com/stronglist_app/' },
+  ...(SHOW_TIKTOK ? [{ label: 'TikTok', href: 'https://www.tiktok.com/@stronglist_app' }] : []),
+]
 
 const brand = {
   ink: '#172B2E',
@@ -274,14 +293,25 @@ const AppStoreLink = () =>
 const StrongListPage = () => (
   <PageStyled>
     <Helmet
-      title="StrongList - Roberto Vázquez González Site"
+      title={PAGE_TITLE}
       meta={[
-        {
-          name: 'description',
-          content:
-            'StrongList, a simple workout log for iPhone and iPad. Plans, sets and progress.',
-        },
+        { name: 'description', content: PAGE_DESCRIPTION },
+        { name: 'apple-itunes-app', content: `app-id=${APP_STORE_ID}` },
+        { property: 'og:title', content: SHARE_TITLE },
+        { property: 'og:description', content: PAGE_DESCRIPTION },
+        { property: 'og:url', content: PAGE_URL },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:image', content: SHARE_IMAGE_URL },
+        { property: 'og:image:alt', content: SHARE_IMAGE_ALT },
+        { property: 'og:image:width', content: '5800' },
+        { property: 'og:image:height', content: '3262' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: SHARE_TITLE },
+        { name: 'twitter:description', content: PAGE_DESCRIPTION },
+        { name: 'twitter:image', content: SHARE_IMAGE_URL },
+        { name: 'twitter:image:alt', content: SHARE_IMAGE_ALT },
       ]}
+      link={[{ rel: 'canonical', href: PAGE_URL }]}
     />
 
     <header className="hero">
@@ -298,6 +328,9 @@ const StrongListPage = () => (
         <div className="actions">
           <AppStoreLink />
         </div>
+        <p>
+          <Link to="/blog/stronglist/">Read the launch story</Link>
+        </p>
       </div>
     </header>
 
@@ -334,6 +367,28 @@ const StrongListPage = () => (
           readable JSON files.
         </li>
         <li>Spanish and English, kilograms or pounds. Requires iOS 17 or later.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h4>Price</h4>
+      <p>
+        Launch price $0.99 / €0.99 through November 20. From November 21, the regular price is
+        $4.99 / €5.99. Both are a one-time purchase, with no subscriptions, ads or in-app
+        purchases.
+      </p>
+    </section>
+
+    <section>
+      <h4>Follow StrongList</h4>
+      <ul>
+        {socialLinks.map(social => (
+          <li key={social.label}>
+            <a href={social.href} target="_blank" rel="noopener noreferrer">
+              {social.label}
+            </a>
+          </li>
+        ))}
       </ul>
     </section>
 
