@@ -18,6 +18,8 @@ You can build plans from the exercise catalog or add your own exercises. For str
 
 If you train at more than one gym, StrongList keeps machine numbers for each gym and exercise. You can also edit a plan during a workout, including adding or reordering exercises.
 
+If your trainer gives you a routine on paper, you can bring it in from a photo. StrongList gives you the instructions to use with the AI app you already have, like ChatGPT: you send it the photo, paste its reply back into StrongList, and the routine becomes a plan. StrongList itself doesn't send your photo or your data anywhere.
+
 While a workout is running, a Live Activity shows elapsed time, the completed exercise count and the next exercise on the Lock Screen. Supported iPhones also show workout information in the Dynamic Island.
 
 Progress lets you look at a session, week or month, including total sets, weight lifted and sets per muscle region. The app supports English and Spanish.
