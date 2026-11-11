@@ -396,6 +396,9 @@ const StrongListPage = () => (
       <h4>Help and privacy</h4>
       <ul>
         <li>
+          <Link to="/projects/stronglist/changelog/">What&apos;s new in each version</Link>
+        </li>
+        <li>
           <Link to="/projects/stronglist/support/">Support and FAQ</Link>
         </li>
         <li>
