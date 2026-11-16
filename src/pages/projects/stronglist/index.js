@@ -16,6 +16,10 @@ import shareImage from '../../../posts/images/stronglist.png'
 const APP_STORE_URL = 'https://apps.apple.com/app/stronglist/id6819074489'
 const APP_STORE_ID = '6819074489'
 
+// Latest version, named in the hero's link to the updates page.
+const LATEST_VERSION = '1.1'
+const CHANGELOG_PATH = '/projects/stronglist/changelog/'
+
 const SITE_URL = 'https://robertovg.com'
 const PAGE_URL = `${SITE_URL}/projects/stronglist/`
 const PAGE_TITLE = 'StrongList - Roberto Vázquez González Site'
@@ -180,6 +184,10 @@ const PageStyled = styled.article`
     cursor: default;
   }
 
+  .whatsNew {
+    font-size: 0.95rem;
+  }
+
   .appBadgeStatus {
     font-size: 11px;
     font-weight: 600;
@@ -327,6 +335,13 @@ const StrongListPage = () => (
         </p>
         <div className="actions">
           <AppStoreLink />
+          <span className="whatsNew">
+            <Link to={CHANGELOG_PATH}>What&apos;s new in {LATEST_VERSION}</Link>
+            {' · '}
+            <Link to={`${CHANGELOG_PATH}#es`} lang="es">
+              Novedades de la {LATEST_VERSION}
+            </Link>
+          </span>
         </div>
         <p>
           <Link to="/blog/stronglist/">Read the launch story</Link>
