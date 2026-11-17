@@ -26,7 +26,7 @@ Progress lets you look at a session, week or month, including total sets, weight
 
 ## Price
 
-The launch price is **$0.99 / €0.99** through November 20. From November 21, the regular price is **$4.99 / €5.99**. Both are a one-time purchase.
+The launch price is **$0.99 / €0.99** through November 30, 2026. From December 1, 2026, the regular price is **$4.99 / €5.99**. Both are a one-time purchase.
 
 There are no subscriptions, ads or in-app purchases. You don't need a StrongList account either.
 
