@@ -29,12 +29,10 @@ const PAGE_DESCRIPTION =
 const SHARE_IMAGE_URL = `${SITE_URL}${shareImage}`
 const SHARE_IMAGE_ALT = 'StrongList app icon and wordmark, out now on iPhone and iPad'
 
-// Product social accounts. TikTok stays hidden until @stronglist_app is live there.
-const SHOW_TIKTOK = false
 const socialLinks = [
   { label: 'X', href: 'https://x.com/stronglist_app' },
   { label: 'Instagram', href: 'https://www.instagram.com/stronglist_app/' },
-  ...(SHOW_TIKTOK ? [{ label: 'TikTok', href: 'https://www.tiktok.com/@stronglist_app' }] : []),
+  { label: 'TikTok', href: 'https://www.tiktok.com/@stronglist_app' },
 ]
 
 const brand = {

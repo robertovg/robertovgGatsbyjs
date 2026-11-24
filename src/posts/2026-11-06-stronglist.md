@@ -36,4 +36,4 @@ Your training records are stored locally on your device. iCloud Drive sync is on
 
 That's the scope I've chosen for StrongList: following a plan and keeping a record of your workouts, rather than telling you how to train.
 
-If you try it, I'd like to hear what works and what doesn't. You can also follow StrongList on [X](https://x.com/stronglist_app) or [Instagram](https://www.instagram.com/stronglist_app/).
+If you try it, I'd like to hear what works and what doesn't. You can also follow StrongList on [X](https://x.com/stronglist_app), [Instagram](https://www.instagram.com/stronglist_app/) or [TikTok](https://www.tiktok.com/@stronglist_app).
